@@ -1,0 +1,6 @@
+framework module Pods_LoginSDKDemo {
+  umbrella header "Pods-LoginSDKDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}
