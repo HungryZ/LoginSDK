@@ -9,6 +9,8 @@
 import Alamofire
 import AdSupport
 
+// MARK: - Protocol
+
 protocol GMRequestModel {
     
     var baseUrl: String { get }
@@ -25,7 +27,11 @@ protocol GMRequestModel {
 extension GMRequestModel {
     
     var baseUrl: String {
-        "https://demo.gm88.com"
+        #if DEBUG
+        return "https://demo.gm88.com"
+        #else
+        return "https://m.gm88.com"
+        #endif
     }
     
     var method: HTTPMethod {
@@ -36,6 +42,8 @@ extension GMRequestModel {
         true
     }
 }
+
+// MARK: - Implementation
 
 enum GMLogin: GMRequestModel {
     
@@ -110,6 +118,53 @@ enum GMLogin: GMRequestModel {
         }
     }
 }
+
+enum GMOrder: GMRequestModel {
+    
+    //notify_url=http://www.xx.com // 支付后发货地址，CP提供，无则为空
+    //coins=0.99 // 金额，单位（元）必填
+    //item_id=1101 // 商品ID 必填
+    //developerinfo=49289083 // 透传参数，CP提供 必填
+    //pay_version=3.0 // 固定值 必填
+    //serverid=1 // 区服ID CP提供 必填
+    //roleid=554 // 角色ID CP提供 必填
+    //payment_code=ios // 固定值 必填
+    case create(para: [String : Any])
+
+    //item_name=60金币 // 道具名称
+    //gss_appid=1156 // 游戏ID，同game_id
+    //apple_receipt=BSg7w5TJmfKUeuw== // IOS支付凭据
+    //order_id=514829 // 订单ID，order/create中返回
+    //type=app // 固定值
+    //developerinfo=49289083 // 透传参数
+    //roleid=554 // 角色ID
+    //uid=11609707 // 用户ID
+    //item_price=128 // 道具金额
+    //item_id=1105 // 商品ID
+    //coins=128 // 订单金额
+    //serverid=1 // 区服ID
+    case verify(para: [String : Any])
+    
+    var path: String {
+        switch self {
+        case .create:
+            return "/api/v1/order/create"
+        case .verify:
+            return "/api/v1/order/pay_from_appstore"
+        }
+    }
+    
+    var reqParameter: [String : Any] {
+        switch self {
+        case .create(para: let para):
+            return para
+        case .verify(para: let para):
+            return para
+        }
+    }
+}
+
+// MARK: - Request
 
 class GMNet {
     

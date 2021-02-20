@@ -56,11 +56,11 @@ class GMAlertView: GMBaseCoverView {
             make.centerX.equalTo(contentView)
         }
         messageLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp_bottom).offset(28)
+            make.top.equalTo(titleLabel.snp.bottom).offset(28)
             make.left.right.equalTo(contentView).inset(30)
         }
         stack.snp.makeConstraints { (make) in
-            make.top.equalTo(messageLabel.snp_bottom).offset(28)
+            make.top.equalTo(messageLabel.snp.bottom).offset(28)
             make.centerX.equalTo(contentView)
             make.bottom.equalTo(-15)
         }

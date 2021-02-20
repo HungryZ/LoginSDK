@@ -5,7 +5,7 @@
 //  Created by cy on 2019/10/30.
 //
 
-public extension String {
+extension String {
     
     func checkWithRegexString(regex: String) -> Bool {
         NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: self)

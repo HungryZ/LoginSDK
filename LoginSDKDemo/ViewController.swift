@@ -13,31 +13,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        view.backgroundColor = .white
         
-        LoginManager.shared.setDelegate(self)
-        view.backgroundColor = .purple
-        
-        LoginManager.shared.checkStatus()
-        
-        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        view.addSubview(button)
-        button.setTitle("BUTTON", for: .normal)
+        let button = UIButton(frame: CGRect(x: 100, y: 300, width: 100, height: 100))
+        button.setTitle("BUY", for: .normal)
+        button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        view.addSubview(button)
     }
     
-    @objc func buttonClicked() {
-        LoginManager.shared.checkStatus()
+    @objc
+    func buttonClicked() {
+        GMIAPManager.shared.startIAP(withProductId: "com.cqhaowan.gamezero.test1")
     }
+    
 }
-
-extension ViewController: LoginSDKDelegate {
-    
-    func userLoginSucceed() {
-        print("userLoginSucceed-\(LoginManager.shared.token)")
-    }
-    
-    func userLogout() {
-        print("userLogout-\(LoginManager.shared.token)")
-    }
-}
-

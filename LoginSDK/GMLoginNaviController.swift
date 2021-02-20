@@ -44,11 +44,7 @@ class GMLoginNaviController: UIViewController {
         
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-//        zhc_hideNavigationBar = true
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(resetRootToStartView),
-                                               name: LoginManager.noti_user_token_invalid,
-                                               object: nil)
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userLoginSucceed),
                                                name: LoginManager.noti_user_login,
@@ -63,15 +59,18 @@ class GMLoginNaviController: UIViewController {
     }
     
     func config() {
-//        SVProgressHUD.setMaximumDismissTimeInterval(1.2)
-//        SVProgressHUD.setDefaultStyle(.dark)
-//        SVProgressHUD.setDefaultMaskType(.clear)
+        SVProgressHUD.setMaximumDismissTimeInterval(1.2)
+        SVProgressHUD.setDefaultStyle(.dark)
+        SVProgressHUD.setDefaultMaskType(.clear)
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
     
     @objc func backgroundClicked() {
+        if !LoginManager.shared.isLogin {
+            return
+        }
         dismiss(animated: true) {
             GMFloatButtonManager.showFloatButton()
         }
@@ -106,15 +105,10 @@ extension GMLoginNaviController: GMBaseViewDelegate {
 
 extension GMLoginNaviController {
     
-    @objc func resetRootToStartView() {
-        viewStack.removeAll()
-        
-        pushView(GMSMSPhoneView())
-    }
-    
     @objc func userLoginSucceed() {
+        // 其实没有用了
         dismiss(animated: true) {
-            LoginManager.shared.showFloatButton()
+            GMFloatButtonManager.showFloatButton()
         }
     }
 }

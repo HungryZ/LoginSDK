@@ -14,12 +14,12 @@ public class LoginManager {
     
     let key_token = "LoginSDK.user.token"
     
-    static let noti_user_token_invalid = NSNotification.Name(rawValue: "LoginSDK.noti_user_token_invalid")
     static let noti_user_login = NSNotification.Name(rawValue: "LoginSDK.noti_user_login")
     
-    
     public static let shared = LoginManager()
-    private init() {}
+    private init() {
+        _ = GMIAPManager.shared
+    }
     
     weak var delegate: LoginSDKDelegate?
     
@@ -27,10 +27,12 @@ public class LoginManager {
     
     var user: GMUserModel?
     
+    /// 是否登录
     public var isLogin: Bool {
         token != nil
     }
     
+    /// user token
     public var token: String? {
         get {
             if let mToken = memoryToken {
@@ -58,28 +60,31 @@ public class LoginManager {
         self.delegate = delegate
     }
     
-    public func checkStatus() {
-        isLogin ? showFloatButton() : showLoginView()
-        showRealNameCerAlertIfNeeded()
+    /// 判断登录状态，如果已登录，返回为空，并判断是否需要实名认证；如果未登录，返回登录控制器
+    @discardableResult
+    public func checkStatus() -> UIViewController? {
+        if isLogin {
+            GMFloatButtonManager.showFloatButton()
+            showRealNameCerAlertIfNeeded()
+            return nil
+        } else {
+            return getLoginController()
+        }
     }
     
+    /// 获取登录控制器
+    public func getLoginController() -> UIViewController {
+        GMLoginNaviController(root: GMSMSPhoneView())
+    }
+    
+    /// 退出登录
     public func logout() {
         memoryToken = nil
         UserDefaults.standard.removeObject(forKey: key_token)
-        NotificationCenter.default.post(name: LoginManager.noti_user_token_invalid, object: nil)
         delegate?.userLogout()
     }
     
     // MARK: - Private
-    
-    func showFloatButton() {
-        GMFloatButtonManager.showFloatButton()
-    }
-    
-    func showLoginView() {
-        rootVC()?.present(GMLoginNaviController(root: GMSMSPhoneView()), animated: true, completion: nil)
-        GMFloatButtonManager.hideFloatButton()
-    }
     
     func loginSucceed(token: String) {
         self.token = token
@@ -107,7 +112,7 @@ public class LoginManager {
                 vc.pushView(GMRealNameCerView())
                 self.rootVC()?.present(vc, animated: true, completion: nil)
             }) {
-                self.showFloatButton()
+                GMFloatButtonManager.showFloatButton()
             }
             GMFloatButtonManager.hideFloatButton()
         }

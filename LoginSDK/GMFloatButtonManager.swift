@@ -11,7 +11,7 @@ class GMFloatButtonManager {
     public static let shared = GMFloatButtonManager()
     private init() {}
     
-    weak var floatButton: UIButton!
+    var floatButton: UIButton!
     var previousCenter: CGPoint!
     
     var timer: Timer?
@@ -20,6 +20,11 @@ class GMFloatButtonManager {
     static func showFloatButton() {
         if shared.floatButton != nil {
             shared.floatButton.isHidden = false
+            if shared.floatButton.superview == nil {
+                UIApplication.shared.windows.first!.addSubview(shared.floatButton)
+            } else {
+                shared.floatButton.superview?.bringSubviewToFront(shared.floatButton)
+            }
             return
         }
         let button = UIButton(imageName: "button_0", target: shared, action: #selector(floatButtonTouchUpInside(sender:)))
