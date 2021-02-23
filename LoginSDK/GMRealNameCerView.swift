@@ -58,16 +58,16 @@ class GMRealNameCerView: GMBaseView {
             make.left.right.equalTo(0).inset(ScaleWidth(30))
         }
         nameField.snp.makeConstraints { (make) in
-            make.top.equalTo(hintLabel.snp_bottom).offset(20)
+            make.top.equalTo(hintLabel.snp.bottom).offset(20)
             make.left.right.equalTo(0).inset(ScaleWidth(30))
             make.height.equalTo(ScaleWidth(36))
         }
         IDField.snp.makeConstraints { (make) in
-            make.top.equalTo(nameField.snp_bottom).offset(20)
+            make.top.equalTo(nameField.snp.bottom).offset(20)
             make.left.right.height.equalTo(nameField)
         }
         actionButton.snp.makeConstraints { (make) in
-            make.top.equalTo(IDField.snp_bottom).offset(30)
+            make.top.equalTo(IDField.snp.bottom).offset(30)
             make.centerX.equalTo(contentView)
             make.width.equalTo(ScaleWidth(100))
             make.height.equalTo(35)

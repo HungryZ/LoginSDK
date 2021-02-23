@@ -68,7 +68,7 @@ public class GMIAPManager: NSObject {
 extension GMIAPManager: SKProductsRequestDelegate {
     
     // 苹果内购服务，下面的ProductId应该是事先在itunesConnect中添加好的，已存在的付费项目。否则查询会失败。
-    func getProductInfow(proId: String){
+    func getProductInfow(proId: String) {
         self.request = SKProductsRequest(productIdentifiers: [proId])
         self.request.delegate = self
         self.request.start()
@@ -137,7 +137,8 @@ extension GMIAPManager: SKPaymentTransactionObserver {
 //                ]
 //                GMNet.request(GMOrder.verify(para: para)) { (response) in
 //                    // ...
-//                    
+//
+//                    Tracking.setRyzf(developerinfo, ryzfType: "appstore", hbType: "CNY", hbAmount: 0)
 //                    SKPaymentQueue.default().finishTransaction(tran)
 //                }
                 

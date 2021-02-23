@@ -86,7 +86,7 @@ class GMBaseView: UIView {
             make.bottom.lessThanOrEqualToSuperview()
         }
         contentView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleView.snp_bottom)
+            make.top.equalTo(titleView.snp.bottom)
             make.left.bottom.right.equalTo(0)
         }
     }

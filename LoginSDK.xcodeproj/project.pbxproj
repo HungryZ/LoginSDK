@@ -50,6 +50,20 @@
 		93BCF65125D2620F005B9C9C /* LoginSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9318E1F025D0F7FE008DBBFA /* LoginSDK.framework */; };
 		93BCF65225D2620F005B9C9C /* LoginSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9318E1F025D0F7FE008DBBFA /* LoginSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93BCF68D25D267CB005B9C9C /* GMIAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BCF68C25D267CB005B9C9C /* GMIAPManager.swift */; };
+		93CE986825E35C6000443F9C /* Tracking.h in Headers */ = {isa = PBXBuildFile; fileRef = 93CE986625E35C6000443F9C /* Tracking.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93CE986925E35C6000443F9C /* libReYunTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE986725E35C6000443F9C /* libReYunTracking.a */; };
+		93CE988425E38A1800443F9C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987225E3892100443F9C /* libsqlite3.tbd */; };
+		93CE988625E38A3100443F9C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE986C25E388F900443F9C /* Security.framework */; };
+		93CE988725E38A3E00443F9C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE986E25E3890600443F9C /* CoreTelephony.framework */; };
+		93CE988825E38A4600443F9C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987025E3891300443F9C /* AdSupport.framework */; };
+		93CE988925E38A5600443F9C /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987325E3892C00443F9C /* iAd.framework */; };
+		93CE988A25E38A5E00443F9C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987525E3893600443F9C /* AVFoundation.framework */; };
+		93CE988B25E38A6500443F9C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987725E3894000443F9C /* libz.tbd */; };
+		93CE988D25E38A6C00443F9C /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987825E3895800443F9C /* libresolv.tbd */; };
+		93CE988F25E38A7800443F9C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987925E3896800443F9C /* CFNetwork.framework */; };
+		93CE989025E38A7F00443F9C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987B25E3897100443F9C /* WebKit.framework */; };
+		93CE989325E38ABF00443F9C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE989225E38ABF00443F9C /* SystemConfiguration.framework */; };
+		93CE989625E38ACF00443F9C /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE989525E38ACF00443F9C /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +137,20 @@
 		93A6C29A25D18EC2005C3F26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93A6C29C25D18EC2005C3F26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93BCF68C25D267CB005B9C9C /* GMIAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMIAPManager.swift; sourceTree = "<group>"; };
+		93CE986625E35C6000443F9C /* Tracking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracking.h; sourceTree = "<group>"; };
+		93CE986725E35C6000443F9C /* libReYunTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libReYunTracking.a; sourceTree = "<group>"; };
+		93CE986C25E388F900443F9C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		93CE986E25E3890600443F9C /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		93CE987025E3891300443F9C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		93CE987225E3892100443F9C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		93CE987325E3892C00443F9C /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		93CE987525E3893600443F9C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		93CE987725E3894000443F9C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		93CE987825E3895800443F9C /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		93CE987925E3896800443F9C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		93CE987B25E3897100443F9C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		93CE989225E38ABF00443F9C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		93CE989525E38ACF00443F9C /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		A016353E384CD0454EEC2CF6 /* Pods-LoginSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-LoginSDKDemo/Pods-LoginSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DC64D776CCC98D7E6BEB0360 /* Pods-LoginSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginSDK.debug.xcconfig"; path = "Target Support Files/Pods-LoginSDK/Pods-LoginSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		E0B8F7928B6352B0FAC106E9 /* Pods_LoginSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,7 +161,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93CE988A25E38A5E00443F9C /* AVFoundation.framework in Frameworks */,
+				93CE988F25E38A7800443F9C /* CFNetwork.framework in Frameworks */,
+				93CE989025E38A7F00443F9C /* WebKit.framework in Frameworks */,
+				93CE988425E38A1800443F9C /* libsqlite3.tbd in Frameworks */,
+				93CE986925E35C6000443F9C /* libReYunTracking.a in Frameworks */,
+				93CE989325E38ABF00443F9C /* SystemConfiguration.framework in Frameworks */,
+				93CE988725E38A3E00443F9C /* CoreTelephony.framework in Frameworks */,
+				93CE988925E38A5600443F9C /* iAd.framework in Frameworks */,
+				93CE988625E38A3100443F9C /* Security.framework in Frameworks */,
 				8E718F27D71DD68B4049078F /* Pods_LoginSDK.framework in Frameworks */,
+				93CE988D25E38A6C00443F9C /* libresolv.tbd in Frameworks */,
+				93CE988B25E38A6500443F9C /* libz.tbd in Frameworks */,
+				93CE988825E38A4600443F9C /* AdSupport.framework in Frameworks */,
+				93CE989625E38ACF00443F9C /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,14 +213,15 @@
 		9318E1F225D0F7FE008DBBFA /* LoginSDK */ = {
 			isa = PBXGroup;
 			children = (
+				93CE986525E35C3200443F9C /* TrackingIO */,
 				9318E1FD25D0F82D008DBBFA /* Tools */,
 				9318E20125D0F82E008DBBFA /* Category */,
-				9318E21625D0F82E008DBBFA /* GMUserModel.swift */,
+				9318E30E25D1366A008DBBFA /* LoginManager.swift */,
 				93BCF68C25D267CB005B9C9C /* GMIAPManager.swift */,
+				9318E21625D0F82E008DBBFA /* GMUserModel.swift */,
 				9318E21225D0F82E008DBBFA /* GMLoginNaviController.swift */,
 				9318E20C25D0F82E008DBBFA /* GMBaseView.swift */,
 				9318E20B25D0F82E008DBBFA /* GMFloatButtonManager.swift */,
-				9318E30E25D1366A008DBBFA /* LoginManager.swift */,
 				9318E21525D0F82E008DBBFA /* GMSMSPhoneView.swift */,
 				9318E20925D0F82E008DBBFA /* GMSMSCodeView.swift */,
 				9318E20F25D0F82E008DBBFA /* GMPsdLoginView.swift */,
@@ -240,6 +282,15 @@
 			path = LoginSDKDemo;
 			sourceTree = "<group>";
 		};
+		93CE986525E35C3200443F9C /* TrackingIO */ = {
+			isa = PBXGroup;
+			children = (
+				93CE986725E35C6000443F9C /* libReYunTracking.a */,
+				93CE986625E35C6000443F9C /* Tracking.h */,
+			);
+			path = TrackingIO;
+			sourceTree = "<group>";
+		};
 		B3B1CA8038BFAF416BF86C99 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +305,18 @@
 		C697FF3FC5DF5BDE69A20E23 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93CE989525E38ACF00443F9C /* CoreMotion.framework */,
+				93CE989225E38ABF00443F9C /* SystemConfiguration.framework */,
+				93CE987B25E3897100443F9C /* WebKit.framework */,
+				93CE987925E3896800443F9C /* CFNetwork.framework */,
+				93CE987825E3895800443F9C /* libresolv.tbd */,
+				93CE987725E3894000443F9C /* libz.tbd */,
+				93CE987525E3893600443F9C /* AVFoundation.framework */,
+				93CE987325E3892C00443F9C /* iAd.framework */,
+				93CE987225E3892100443F9C /* libsqlite3.tbd */,
+				93CE987025E3891300443F9C /* AdSupport.framework */,
+				93CE986E25E3890600443F9C /* CoreTelephony.framework */,
+				93CE986C25E388F900443F9C /* Security.framework */,
 				E0B8F7928B6352B0FAC106E9 /* Pods_LoginSDK.framework */,
 				21B78D8DB30DEBCFD8862DF4 /* Pods_LoginSDKDemo.framework */,
 			);
@@ -270,6 +333,7 @@
 				9318E1F525D0F7FE008DBBFA /* LoginSDK.h in Headers */,
 				9318E27225D1196E008DBBFA /* ZHCTextField.h in Headers */,
 				9318E27825D11AF1008DBBFA /* ZHCCountingButton.h in Headers */,
+				93CE986825E35C6000443F9C /* Tracking.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +720,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LoginSDK/TrackingIO",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = GM.LoginSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -684,6 +752,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LoginSDK/TrackingIO",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = GM.LoginSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

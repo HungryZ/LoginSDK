@@ -19,6 +19,7 @@ public class LoginManager {
     public static let shared = LoginManager()
     private init() {
         _ = GMIAPManager.shared
+        Tracking.initWithAppKey("6e4444b67f30314e699f983c197f21a6", withChannelId: "_default_")
     }
     
     weak var delegate: LoginSDKDelegate?

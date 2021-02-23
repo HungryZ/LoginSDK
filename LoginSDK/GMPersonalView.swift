@@ -78,15 +78,15 @@ class GMPersonalView: GMBaseView {
         }
         avatarButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(headerView)
-            make.size.equalTo(avatarButton.snp_size)
+            make.size.equalTo(avatarButton.snp.size)
             make.top.equalTo(ScaleWidth(36))
         }
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(avatarButton.snp_bottom).offset(16)
+            make.top.equalTo(avatarButton.snp.bottom).offset(16)
             make.centerX.equalTo(headerView)
         }
         changePsdButton.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel.snp_bottom)
+            make.top.equalTo(nameLabel.snp.bottom)
             make.centerX.equalTo(headerView)
         }
         

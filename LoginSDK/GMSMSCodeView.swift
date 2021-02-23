@@ -92,11 +92,11 @@ class GMSMSCodeView: GMBaseView {
         }
         hintLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(checkButton)
-            make.left.equalTo(checkButton.snp_right).offset(10)
+            make.left.equalTo(checkButton.snp.right).offset(10)
         }
         protocolButton.snp.makeConstraints { (make) in
             make.centerY.equalTo(checkButton)
-            make.left.equalTo(hintLabel.snp_right)
+            make.left.equalTo(hintLabel.snp.right)
             make.right.equalTo(0)
         }
         
@@ -110,11 +110,11 @@ class GMSMSCodeView: GMBaseView {
             make.height.equalTo(ScaleWidth(36))
         }
         protocolRow.snp.makeConstraints { (make) in
-            make.top.equalTo(codeField.snp_bottom).offset(17)
+            make.top.equalTo(codeField.snp.bottom).offset(17)
             make.centerX.equalTo(contentView)
         }
         actionButton.snp.makeConstraints { (make) in
-            make.top.equalTo(protocolRow.snp_bottom).offset(17)
+            make.top.equalTo(protocolRow.snp.bottom).offset(17)
             make.centerX.equalTo(contentView)
             make.width.equalTo(ScaleWidth(100))
             make.height.equalTo(35)
@@ -147,7 +147,11 @@ class GMSMSCodeView: GMBaseView {
             SVProgressHUD.showError(withStatus: "验证码长度不符")
         } else {
             GMNet.request(GMLogin.smsLogin(phone: phone, code: codeField.text!)) { (response) in
-                LoginManager.shared.loginSucceed(token: response["token"] as! String)
+                let user = response.decode(to: GMUserModel.self)
+                LoginManager.shared.loginSucceed(token: user.token!)
+                if let register = user.new_user, register {
+                    Tracking.setRegisterWithAccountID(user.uid)
+                }
             }
         }
     }

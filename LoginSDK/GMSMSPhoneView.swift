@@ -83,32 +83,32 @@ class GMSMSPhoneView: GMBaseView {
             make.height.equalTo(ScaleWidth(150))
         }
         phoneField.snp.makeConstraints { (make) in
-            make.top.equalTo(headerImgView.snp_bottom).offset(20)
+            make.top.equalTo(headerImgView.snp.bottom).offset(20)
             make.left.right.equalTo(0).inset(ScaleWidth(30))
             make.height.equalTo(ScaleWidth(36))
         }
         loginButton.snp.makeConstraints { (make) in
-            make.top.equalTo(phoneField.snp_bottom).offset(20)
+            make.top.equalTo(phoneField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(ScaleWidth(100))
             make.height.equalTo(35)
         }
         hintLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(loginButton.snp_bottom).offset(20)
+            make.top.equalTo(loginButton.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
         leftLine.snp.makeConstraints { (make) in
             make.centerY.equalTo(hintLabel)
-            make.right.equalTo(hintLabel.snp_left).offset(-10)
+            make.right.equalTo(hintLabel.snp.left).offset(-10)
             make.size.equalTo(CGSize(width: ScaleWidth(60), height: 0.5))
         }
         rightLine.snp.makeConstraints { (make) in
             make.centerY.equalTo(hintLabel)
-            make.left.equalTo(hintLabel.snp_right).offset(10)
+            make.left.equalTo(hintLabel.snp.right).offset(10)
             make.size.equalTo(leftLine)
         }
         psdLoginButton.snp.makeConstraints { (make) in
-            make.top.equalTo(hintLabel.snp_bottom).offset(10)
+            make.top.equalTo(hintLabel.snp.bottom).offset(10)
             make.left.equalTo(64)
             make.bottom.equalTo(-10)
         }
@@ -139,7 +139,11 @@ class GMSMSPhoneView: GMBaseView {
     
     @objc func guestButtonClicked() {
         GMNet.request(GMLogin.guestLogin) { (response) in
-            LoginManager.shared.loginSucceed(token: response["token"] as! String)
+            let user = response.decode(to: GMUserModel.self)
+            LoginManager.shared.loginSucceed(token: user.token!)
+            if let register = user.new_user, register {
+                Tracking.setRegisterWithAccountID(user.uid)
+            }
         }
     }
 }

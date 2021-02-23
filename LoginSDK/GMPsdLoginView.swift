@@ -70,22 +70,22 @@ class GMPsdLoginView: GMBaseView {
             make.height.equalTo(ScaleWidth(150))
         }
         phoneField.snp.makeConstraints { (make) in
-            make.top.equalTo(headerImgView.snp_bottom).offset(20)
+            make.top.equalTo(headerImgView.snp.bottom).offset(20)
             make.left.right.equalTo(0).inset(ScaleWidth(30))
             make.height.equalTo(ScaleWidth(36))
         }
         psdField.snp.makeConstraints { (make) in
-            make.top.equalTo(phoneField.snp_bottom).offset(20)
+            make.top.equalTo(phoneField.snp.bottom).offset(20)
             make.left.right.height.equalTo(phoneField)
         }
         loginButton.snp.makeConstraints { (make) in
-            make.top.equalTo(psdField.snp_bottom).offset(20)
+            make.top.equalTo(psdField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(ScaleWidth(100))
             make.height.equalTo(35)
         }
         forgotPsdButton.snp.makeConstraints { (make) in
-            make.top.equalTo(loginButton.snp_bottom).offset(5)
+            make.top.equalTo(loginButton.snp.bottom).offset(5)
             make.centerX.equalTo(contentView)
             make.bottom.equalTo(-5)
         }
@@ -106,7 +106,11 @@ class GMPsdLoginView: GMBaseView {
             SVProgressHUD.showError(withStatus: "请输入密码")
         } else {
             GMNet.request(GMLogin.psdLogin(phone: phoneField.phoneNumberString, psd: psdField.text!)) { (response) in
-                LoginManager.shared.loginSucceed(token: response["token"] as! String)
+                let user = response.decode(to: GMUserModel.self)
+                LoginManager.shared.loginSucceed(token: user.token!)
+                if let register = user.new_user, register {
+                    Tracking.setRegisterWithAccountID(user.uid)
+                }
             }
         }
     }

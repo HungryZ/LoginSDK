@@ -12,11 +12,13 @@ struct GMUserModel: Codable {
     var idNo: String
     var needBindIdCardInfo: Bool
     var nickname: String
+    var uid: String
+    var token: String?
+    var new_user: Bool?
 //    var sid: String?
 //    var pay_coupon_count_all: String?
 //    var pay_coupon_count: String?
 //    var has_discount: Bool? = false
-//    var uid: String?
 //    var channel_name: String?
 //    var promote_coin: String?
 //    var growth: String?

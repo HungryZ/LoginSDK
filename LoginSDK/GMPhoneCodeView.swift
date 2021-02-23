@@ -94,11 +94,11 @@ class GMPhoneCodeView: GMBaseView {
             make.height.equalTo(ScaleWidth(36))
         }
         codeField.snp.makeConstraints { (make) in
-            make.top.equalTo(phoneField.snp_bottom).offset(20)
+            make.top.equalTo(phoneField.snp.bottom).offset(20)
             make.left.right.height.equalTo(phoneField)
         }
         actionButton.snp.makeConstraints { (make) in
-            make.top.equalTo(codeField.snp_bottom).offset(30)
+            make.top.equalTo(codeField.snp.bottom).offset(30)
             make.centerX.equalTo(contentView)
             make.width.equalTo(ScaleWidth(100))
             make.height.equalTo(35)
