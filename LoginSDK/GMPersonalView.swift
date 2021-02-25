@@ -30,7 +30,6 @@ class GMPersonalView: GMBaseView {
     
     lazy var avatarButton: UIButton = {
         let button = UIButton(imageName: "avatar", target: self, action: #selector(avatarButtonClicked))
-        button.frame = CGRect(x: 0, y: 0, width: ScaleWidth(58), height: ScaleWidth(58))
         button.layer.cornerRadius = ScaleWidth(58 / 2)
         button.clipsToBounds = true
         
@@ -56,8 +55,17 @@ class GMPersonalView: GMBaseView {
         
         GMNet.request(GMLogin.userInfo) { (response) in
             let user = response.decode(to: GMUserModel.self)
+            
+            if let url = URL(string: user.face) {
+                if let data = try? Data(contentsOf: url) {
+                    let image = UIImage(data: data)
+                    self.avatarButton.setImage(image, for: .normal)
+                }
+            }
+            
+            self.nameLabel.text = user.nickname
             self.phoneDetalStr = user.phone.securityPhoneStr()
-            self.cerDetailStr = user.idNo.securityIDStr()
+            self.cerDetailStr = user.idNo
             self.mainTableView.reloadData()
             
             LoginManager.shared.user = user
@@ -78,7 +86,7 @@ class GMPersonalView: GMBaseView {
         }
         avatarButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(headerView)
-            make.size.equalTo(avatarButton.snp.size)
+            make.size.equalTo(ScaleWidth(58))
             make.top.equalTo(ScaleWidth(36))
         }
         nameLabel.snp.makeConstraints { (make) in
@@ -133,7 +141,10 @@ extension GMPersonalView: UITableViewDataSource, UITableViewDelegate {
         if title == "绑定手机号" {
             cell.detailTextLabel?.text = phoneDetalStr
         } else if title == "实名制认证" {
-            cell.detailTextLabel?.text = cerDetailStr
+            if let idNo = cerDetailStr, idNo.count > 0 {
+                cell.detailTextLabel?.text = idNo
+                cell.accessoryType = .none
+            }
         }
         
         return cell

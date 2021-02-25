@@ -118,8 +118,15 @@ class GMSMSPhoneView: GMBaseView {
         }
     }
     
-    @objc func pullButtonClicked() {
-        
+    @objc func pullButtonClicked(sender: UIButton) {
+        if sender.isSelected {
+            GMPhoneHistoryView.hideCurrentView()
+        } else {
+            GMPhoneHistoryView.show(withHostView: self.phoneField) { (phone) in
+                self.phoneField.text = phone
+            }
+        }
+        sender.isSelected = !sender.isSelected
     }
     
     @objc func loginButtonClicked() {

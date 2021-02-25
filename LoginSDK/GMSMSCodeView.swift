@@ -134,7 +134,7 @@ class GMSMSCodeView: GMBaseView {
     }
     
     @objc func protocolButtonClicked() {
-        
+        delegate?.pushView(GMWebView(urlString: "http://www.howanjoy.com/base_aggreement.html"))
     }
     
     @objc func actionButtonClicked() {
@@ -152,6 +152,7 @@ class GMSMSCodeView: GMBaseView {
                 if let register = user.new_user, register {
                     Tracking.setRegisterWithAccountID(user.uid)
                 }
+                GMPhoneHistoryView.savePhone(self.phone.phoneFormat())
             }
         }
     }

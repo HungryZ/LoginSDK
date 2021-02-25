@@ -20,10 +20,15 @@ class GMFloatButtonManager {
     static func showFloatButton() {
         if shared.floatButton != nil {
             shared.floatButton.isHidden = false
-            if shared.floatButton.superview == nil {
-                UIApplication.shared.windows.first!.addSubview(shared.floatButton)
+            if let superview = shared.floatButton.superview {
+                if superview == topWindow() {
+                    superview.bringSubviewToFront(shared.floatButton)
+                } else {
+                    shared.floatButton.removeFromSuperview()
+                    topWindow().addSubview(shared.floatButton)
+                }
             } else {
-                shared.floatButton.superview?.bringSubviewToFront(shared.floatButton)
+                topWindow().addSubview(shared.floatButton)
             }
             return
         }
@@ -34,7 +39,7 @@ class GMFloatButtonManager {
         button.isSelected = true
         button.addGestureRecognizer(UIPanGestureRecognizer(target: shared, action: #selector(handleGesture(gesture:))))
         
-        UIApplication.shared.windows.first!.addSubview(button)
+        topWindow().addSubview(button)
         shared.floatButton = button
         shared.moveButtonToSideAfterDelay()
     }

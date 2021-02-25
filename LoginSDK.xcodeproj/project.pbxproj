@@ -64,6 +64,9 @@
 		93CE989025E38A7F00443F9C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE987B25E3897100443F9C /* WebKit.framework */; };
 		93CE989325E38ABF00443F9C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE989225E38ABF00443F9C /* SystemConfiguration.framework */; };
 		93CE989625E38ACF00443F9C /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE989525E38ACF00443F9C /* CoreMotion.framework */; };
+		93CE98D425E66FBD00443F9C /* GMWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE98D325E66FBD00443F9C /* GMWebView.swift */; };
+		93CE98D825E6874000443F9C /* GMPhoneHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE98D725E6874000443F9C /* GMPhoneHistoryView.swift */; };
+		93CE98DC25E78BD100443F9C /* GMHeartbeatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE98DB25E78BD100443F9C /* GMHeartbeatManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +154,9 @@
 		93CE987B25E3897100443F9C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		93CE989225E38ABF00443F9C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		93CE989525E38ACF00443F9C /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		93CE98D325E66FBD00443F9C /* GMWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMWebView.swift; sourceTree = "<group>"; };
+		93CE98D725E6874000443F9C /* GMPhoneHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMPhoneHistoryView.swift; sourceTree = "<group>"; };
+		93CE98DB25E78BD100443F9C /* GMHeartbeatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMHeartbeatManager.swift; sourceTree = "<group>"; };
 		A016353E384CD0454EEC2CF6 /* Pods-LoginSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-LoginSDKDemo/Pods-LoginSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DC64D776CCC98D7E6BEB0360 /* Pods-LoginSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginSDK.debug.xcconfig"; path = "Target Support Files/Pods-LoginSDK/Pods-LoginSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		E0B8F7928B6352B0FAC106E9 /* Pods_LoginSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,11 +223,12 @@
 				9318E1FD25D0F82D008DBBFA /* Tools */,
 				9318E20125D0F82E008DBBFA /* Category */,
 				9318E30E25D1366A008DBBFA /* LoginManager.swift */,
+				9318E20B25D0F82E008DBBFA /* GMFloatButtonManager.swift */,
 				93BCF68C25D267CB005B9C9C /* GMIAPManager.swift */,
+				93CE98DB25E78BD100443F9C /* GMHeartbeatManager.swift */,
 				9318E21625D0F82E008DBBFA /* GMUserModel.swift */,
 				9318E21225D0F82E008DBBFA /* GMLoginNaviController.swift */,
 				9318E20C25D0F82E008DBBFA /* GMBaseView.swift */,
-				9318E20B25D0F82E008DBBFA /* GMFloatButtonManager.swift */,
 				9318E21525D0F82E008DBBFA /* GMSMSPhoneView.swift */,
 				9318E20925D0F82E008DBBFA /* GMSMSCodeView.swift */,
 				9318E20F25D0F82E008DBBFA /* GMPsdLoginView.swift */,
@@ -229,6 +236,8 @@
 				9318E20A25D0F82E008DBBFA /* GMPersonalView.swift */,
 				9318E21325D0F82E008DBBFA /* GMPhoneCodeView.swift */,
 				9318E20D25D0F82E008DBBFA /* GMRealNameCerView.swift */,
+				93CE98D325E66FBD00443F9C /* GMWebView.swift */,
+				93CE98D725E6874000443F9C /* GMPhoneHistoryView.swift */,
 				9318E1F325D0F7FE008DBBFA /* LoginSDK.h */,
 				9318E35E25D14632008DBBFA /* LoginSDK.bundle */,
 				9318E1F425D0F7FE008DBBFA /* Info.plist */,
@@ -513,6 +522,7 @@
 				9318E21925D0F82E008DBBFA /* GMAlertView.swift in Sources */,
 				9318E22E25D0F82E008DBBFA /* GMUserModel.swift in Sources */,
 				9318E22225D0F82E008DBBFA /* GMPersonalView.swift in Sources */,
+				93CE98DC25E78BD100443F9C /* GMHeartbeatManager.swift in Sources */,
 				9318E27925D11AF1008DBBFA /* ZHCCountingButton.m in Sources */,
 				9318E22425D0F82E008DBBFA /* GMBaseView.swift in Sources */,
 				9318E22C25D0F82E008DBBFA /* GMNet.swift in Sources */,
@@ -529,6 +539,7 @@
 				9318E22B25D0F82E008DBBFA /* GMPhoneCodeView.swift in Sources */,
 				9318E21825D0F82E008DBBFA /* Macro.swift in Sources */,
 				9318E21725D0F82E008DBBFA /* GMBaseCoverView.swift in Sources */,
+				93CE98D425E66FBD00443F9C /* GMWebView.swift in Sources */,
 				9318E22125D0F82E008DBBFA /* GMSMSCodeView.swift in Sources */,
 				9318E22D25D0F82E008DBBFA /* GMSMSPhoneView.swift in Sources */,
 				9318E21C25D0F82E008DBBFA /* Dictionary+JSONString.swift in Sources */,
@@ -536,6 +547,7 @@
 				9318E22525D0F82E008DBBFA /* GMRealNameCerView.swift in Sources */,
 				9318E21A25D0F82E008DBBFA /* UIButton+Theme.swift in Sources */,
 				9318E22025D0F82E008DBBFA /* String+Attribute.swift in Sources */,
+				93CE98D825E6874000443F9C /* GMPhoneHistoryView.swift in Sources */,
 				9318E25625D1100F008DBBFA /* UIButton+Init.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

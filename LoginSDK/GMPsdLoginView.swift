@@ -57,6 +57,8 @@ class GMPsdLoginView: GMBaseView {
     override func buildUI() {
         super.buildUI()
         
+        backButton.setImage(UIImage(fromBundle: "back_white"), for: .normal)
+        
         phoneField.becomeFirstResponder()
         
         contentView.addSubview(headerImgView)
@@ -91,8 +93,15 @@ class GMPsdLoginView: GMBaseView {
         }
     }
     
-    @objc func pullButtonClicked() {
-        
+    @objc func pullButtonClicked(sender: UIButton) {
+        if sender.isSelected {
+            GMPhoneHistoryView.hideCurrentView()
+        } else {
+            GMPhoneHistoryView.show(withHostView: self.phoneField) { (phone) in
+                self.phoneField.text = phone
+            }
+        }
+        sender.isSelected = !sender.isSelected
     }
     
     @objc func loginButtonClicked() {
@@ -111,6 +120,7 @@ class GMPsdLoginView: GMBaseView {
                 if let register = user.new_user, register {
                     Tracking.setRegisterWithAccountID(user.uid)
                 }
+                GMPhoneHistoryView.savePhone(self.phoneField.text!)
             }
         }
     }

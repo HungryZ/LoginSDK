@@ -15,6 +15,7 @@ struct GMUserModel: Codable {
     var uid: String
     var token: String?
     var new_user: Bool?
+    var face: String
 //    var sid: String?
 //    var pay_coupon_count_all: String?
 //    var pay_coupon_count: String?
@@ -31,6 +32,5 @@ struct GMUserModel: Codable {
 //    var has_new_giftbox: Bool? = false
 //    var important_type: Bool? = false
 //    var channel_uid: String?
-//    var face: String?
 //    var needBindIdCardInfo: Bool = false
 }

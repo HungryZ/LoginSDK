@@ -27,11 +27,7 @@ protocol GMRequestModel {
 extension GMRequestModel {
     
     var baseUrl: String {
-        #if DEBUG
         return "https://demo.gm88.com"
-        #else
-        return "https://m.gm88.com"
-        #endif
     }
     
     var method: HTTPMethod {
@@ -57,8 +53,9 @@ enum GMLogin: GMRequestModel {
     case changePhone(newPhone: String, oldCode: String, newCode: String)
     case realNameCer(name: String, idNo: String)
     case userInfo
-    case heartbeat(isFront: Bool)
     case feedback
+    case heartbeat(isFront: Bool)
+    case realNameSwitch
     
     var path: String {
         switch self {
@@ -86,6 +83,8 @@ enum GMLogin: GMRequestModel {
             return "/api/v1/system/heartbeat"
         case .feedback:
             return "/api/v1/game/customer_service"
+        case .realNameSwitch:
+            return "/api/v1/user/get_idcard_info"
         }
     }
     
@@ -112,8 +111,10 @@ enum GMLogin: GMRequestModel {
         case .userInfo:
             return [:]
         case .heartbeat(isFront: let isFront):
-            return ["ts": Int(NSDate().timeIntervalSince1970), "is_front": isFront, "interval": 60]
+            return ["ts": Int(NSDate().timeIntervalSince1970), "is_front": isFront ? 1 : 0, "interval": 60, "fcm": 2]
         case .feedback:
+            return [:]
+        case .realNameSwitch:
             return [:]
         }
     }

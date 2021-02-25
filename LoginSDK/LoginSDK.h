@@ -17,8 +17,6 @@ FOUNDATION_EXPORT const unsigned char LoginSDKVersionString[];
 
 
 #import <SVProgressHUD/SVProgressHUD.h>
-//#import <LoginSDK/ZHCTextField.h>
-//#import <LoginSDK/ZHCCountingButton.h>
 #import "ZHCTextField.h"
 #import "ZHCCountingButton.h"
 #import "Tracking.h"

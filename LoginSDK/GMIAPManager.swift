@@ -7,6 +7,25 @@
 
 import StoreKit
 
+public class GMTranactionModel: Codable {
+    
+    var productId: String
+    var item_name: String
+    var apple_receipt: String
+    var order_id: String
+    var developerinfo: String
+    var roleid: String
+    var item_price: CGFloat
+    var item_id: String
+    var coins: Int
+    var serverid: String
+    var notify_url: String?
+    var uid: String?
+    var type: String = "app"
+    var pay_version: String = "3.0"
+    var payment_code: String = "ios"
+}
+
 public class GMIAPManager: NSObject {
     
     public static let shared = GMIAPManager()
@@ -162,48 +181,6 @@ extension GMIAPManager: SKPaymentTransactionObserver {
                 
             }
         }
-    }
-
-    
-    // Sent when transactions are removed from the queue (via finishTransaction:).
-    public func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
-        print("\(type(of: self).description()).\(#function)")
-    }
-
-    
-    // Sent when an error is encountered while adding transactions from the user's purchase history back to the queue.
-    public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        print("\(type(of: self).description()).\(#function)")
-    }
-
-    
-    // Sent when all transactions from the user's purchase history have successfully been added back to the queue.
-    public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        print("\(type(of: self).description()).\(#function)")
-    }
-
-    
-    // Sent when the download state has changed.
-    public func paymentQueue(_ queue: SKPaymentQueue, updatedDownloads downloads: [SKDownload]) {
-        print("\(type(of: self).description()).\(#function)")
-    }
-
-    
-    // Sent when a user initiates an IAP buy from the App Store
-    public func paymentQueue(_ queue: SKPaymentQueue, shouldAddStorePayment payment: SKPayment, for product: SKProduct) -> Bool {
-        print("\(type(of: self).description()).\(#function)")
-        return true
-    }
-
-    
-    public func paymentQueueDidChangeStorefront(_ queue: SKPaymentQueue) {
-        print("\(type(of: self).description()).\(#function)")
-    }
-
-    
-    // Sent when entitlements for a user have changed and access to the specified IAPs has been revoked.
-    public func paymentQueue(_ queue: SKPaymentQueue, didRevokeEntitlementsForProductIdentifiers productIdentifiers: [String]) {
-        print("\(type(of: self).description()).\(#function)")
     }
     
 }

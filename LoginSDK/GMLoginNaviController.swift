@@ -6,10 +6,11 @@
 //
 
 import UIKit
-import IQKeyboardManagerSwift
 import SnapKit
 
 class GMLoginNaviController: UIViewController {
+    
+    var canDismissByClick = true
     
     var viewStack = [GMBaseView]()
     
@@ -49,7 +50,6 @@ class GMLoginNaviController: UIViewController {
                                                selector: #selector(userLoginSucceed),
                                                name: LoginManager.noti_user_login,
                                                object: nil)
-        config()
         
         let bgButton = UIButton(imageName: "", target: self, action: #selector(backgroundClicked))
         view.addSubview(bgButton)
@@ -58,16 +58,10 @@ class GMLoginNaviController: UIViewController {
         }
     }
     
-    func config() {
-        SVProgressHUD.setMaximumDismissTimeInterval(1.2)
-        SVProgressHUD.setDefaultStyle(.dark)
-        SVProgressHUD.setDefaultMaskType(.clear)
-        
-        IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
-    }
-    
     @objc func backgroundClicked() {
+        if !canDismissByClick {
+            return
+        }
         if !LoginManager.shared.isLogin {
             return
         }

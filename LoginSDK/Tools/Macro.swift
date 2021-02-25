@@ -10,10 +10,27 @@ import UIKit
 
 let ScreenWidth = UIScreen.main.bounds.width
 
+let ScreenHeight = UIScreen.main.bounds.height
+
 let StatusBarHeight = UIApplication.shared.statusBarFrame.height
+
+let bottomSafeAreaHeight: CGFloat = StatusBarHeight > 20 ? 34 : 0
+
+let tabBarHeight = bottomSafeAreaHeight + 49
 
 func ScaleWidth(_ width: CGFloat) -> CGFloat {
     return width * ScreenWidth / 375.0
+}
+
+func topWindow() -> UIWindow {
+    if let window = UIApplication.shared.keyWindow {
+        return window
+    }
+    return UIApplication.shared.windows.first!
+}
+
+func rootVC() -> UIViewController? {
+    topWindow().rootViewController
 }
 
 extension UIColor {
