@@ -36,14 +36,16 @@ class ViewController: UIViewController {
             "item_id"       : "1101",
             "item_price"    : 6,
             "item_name"     : "60金币",
-            "developerinfo" : "49289090",
+            "developerinfo" : "49289091",
             "pay_version"   : "3.0",
             "serverid"      : "1",
             "roleid"        : "554",
             "gss_appid"     : "773",
             "uid"           : "11609707",
         ]
-        GMIAPManager.shared.startIAP(param)
+        GMIAPManager.shared.startIAP(param) { (succeed) in
+            
+        }
     }
     
     @objc

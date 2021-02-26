@@ -37,6 +37,8 @@ public class GMIAPManager: NSObject {
     var transcationModelDic: [String : Any]?
     var transcationModel: GMTransactionModel?
     
+    var result: ((Bool) -> Void)?
+    
     private override init() {
         super.init()
         
@@ -55,7 +57,7 @@ public class GMIAPManager: NSObject {
         SKPaymentQueue.default().remove(self)
     }
     
-    public func startIAP(_ model: [String : Any]) {
+    public func startIAP(_ model: [String : Any], result: @escaping (Bool) -> Void) {
         
 //        let para: [String : Any] = [
 //            "notify_url"    : "",
@@ -76,14 +78,26 @@ public class GMIAPManager: NSObject {
         fullParam["payment_code"] = "ios"
         
         GMNet.request(GMOrder.create(para: fullParam)) { (response) in
-            guard let order_id = response["order_id"] as? String else { return }
-            guard let productId = response["productId"] as? String else { return }
+            guard let order_id = response["order_id"] as? String else {
+                result(false)
+                return
+            }
+            guard let productId = response["productId"] as? String else {
+                result(false)
+                return
+            }
             
-            guard SKPaymentQueue.canMakePayments() else { return }
+            guard SKPaymentQueue.canMakePayments() else {
+                result(false)
+                return
+            }
             
             self.transcationModelDic = model
             self.transcationModelDic?["order_id"] = order_id
             self.getProductInfow(proId: productId)
+            self.result = result
+        } fail: { (msg) in
+            result(false)
         }
     }
     
@@ -193,6 +207,7 @@ extension GMIAPManager: SKProductsRequestDelegate {
         print("--------------收到产品反馈消息---------------------")
         if response.products.count == 0 || response.invalidProductIdentifiers.count > 0 {
             print("查找不到商品信息")
+            result!(false)
             return
         }
         
@@ -208,6 +223,7 @@ extension GMIAPManager: SKProductsRequestDelegate {
     
     public func request(_ request: SKRequest, didFailWithError error: Error) {
         print("请求失败 \(error)")
+        result!(false)
     }
     
     public func requestDidFinish(_ request: SKRequest) {

@@ -10,6 +10,7 @@ platform :ios, '11.0'
     pod 'SVProgressHUD'
     pod 'IQKeyboardManagerSwift'
     pod 'KeychainAccess'
+    pod 'SwiftyStoreKit'
 
   end
 end

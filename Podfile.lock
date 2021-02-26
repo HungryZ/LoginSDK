@@ -4,6 +4,7 @@ PODS:
   - KeychainAccess (4.2.1)
   - SnapKit (5.0.1)
   - SVProgressHUD (2.2.5)
+  - SwiftyStoreKit (0.16.1)
 
 DEPENDENCIES:
   - Alamofire
@@ -11,6 +12,7 @@ DEPENDENCIES:
   - KeychainAccess
   - SnapKit
   - SVProgressHUD
+  - SwiftyStoreKit
 
 SPEC REPOS:
   trunk:
@@ -19,6 +21,7 @@ SPEC REPOS:
     - KeychainAccess
     - SnapKit
     - SVProgressHUD
+    - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
@@ -26,7 +29,8 @@ SPEC CHECKSUMS:
   KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
 
-PODFILE CHECKSUM: 5585bebd9f9c04c886adcedf777cc7f7dd522fbc
+PODFILE CHECKSUM: 0e9ae414cca4811341131290451ee97f17c965ef
 
 COCOAPODS: 1.10.1
