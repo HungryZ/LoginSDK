@@ -1,12 +1,14 @@
 PODS:
   - Alamofire (5.4.1)
   - IQKeyboardManagerSwift (6.5.6)
+  - KeychainAccess (4.2.1)
   - SnapKit (5.0.1)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Alamofire
   - IQKeyboardManagerSwift
+  - KeychainAccess
   - SnapKit
   - SVProgressHUD
 
@@ -14,15 +16,17 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - IQKeyboardManagerSwift
+    - KeychainAccess
     - SnapKit
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
+  KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: a07f16d95a129f22d4dbef039ef575665f9298d1
+PODFILE CHECKSUM: 5585bebd9f9c04c886adcedf777cc7f7dd522fbc
 
 COCOAPODS: 1.10.1

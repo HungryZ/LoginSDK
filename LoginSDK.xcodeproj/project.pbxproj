@@ -222,6 +222,7 @@
 				93CE986525E35C3200443F9C /* TrackingIO */,
 				9318E1FD25D0F82D008DBBFA /* Tools */,
 				9318E20125D0F82E008DBBFA /* Category */,
+				9318E21425D0F82E008DBBFA /* GMNet.swift */,
 				9318E30E25D1366A008DBBFA /* LoginManager.swift */,
 				9318E20B25D0F82E008DBBFA /* GMFloatButtonManager.swift */,
 				93BCF68C25D267CB005B9C9C /* GMIAPManager.swift */,
@@ -249,7 +250,6 @@
 			isa = PBXGroup;
 			children = (
 				9318E1FF25D0F82E008DBBFA /* Macro.swift */,
-				9318E21425D0F82E008DBBFA /* GMNet.swift */,
 				9318E1FE25D0F82E008DBBFA /* GMBaseCoverView.swift */,
 				9318E20025D0F82E008DBBFA /* GMAlertView.swift */,
 				9318E27025D1196E008DBBFA /* ZHCTextField.h */,

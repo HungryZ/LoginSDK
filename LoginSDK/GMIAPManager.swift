@@ -6,9 +6,11 @@
 //
 
 import StoreKit
+import KeychainAccess
 
-public class GMTranactionModel: Codable {
+public class GMTransactionModel: Codable {
     
+    var transactionIdentifier: String
     var productId: String
     var item_name: String
     var apple_receipt: String
@@ -28,7 +30,13 @@ public class GMTranactionModel: Codable {
 
 public class GMIAPManager: NSObject {
     
+    public static let bundleID = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
+    
     public static let shared = GMIAPManager()
+    
+    var transcationModelDic: [String : Any]?
+    var transcationModel: GMTransactionModel?
+    
     private override init() {
         super.init()
         
@@ -36,7 +44,6 @@ public class GMIAPManager: NSObject {
     }
     
     var request: SKProductsRequest!
-    var order_id: String! = "515242"
     
     deinit {
         print("释放充值")
@@ -48,14 +55,7 @@ public class GMIAPManager: NSObject {
         SKPaymentQueue.default().remove(self)
     }
     
-    // MARK:- 购买
-    public func startIAP(withProductId productId: String) {
-        if SKPaymentQueue.canMakePayments() {
-            // 你的itunesConnect的商品ID
-            self.getProductInfow(proId: productId)
-        } else {
-            print("不允许程序内付费")
-        }
+    public func startIAP(_ model: [String : Any]) {
         
 //        let para: [String : Any] = [
 //            "notify_url"    : "",
@@ -67,19 +67,112 @@ public class GMIAPManager: NSObject {
 //            "roleid"        : "554",
 //            "payment_code"  : "ios",
 //        ]
-//        GMNet.request(GMOrder.create(para: para)) { (response) in
-//            guard let order_id = response["order_id"] as? String else { return }
-//            self.order_id = order_id
-//            guard let productId = response["productId"] as? String else { return }
-//
-//            SKPaymentQueue.default().add(self)
-//            if SKPaymentQueue.canMakePayments() {
-//                // 你的itunesConnect的商品ID
-//                self.getProductInfow(proId: productId)
-//            } else {
-//                print("不允许程序内付费")
-//            }
-//        }
+//        var fullParam: [String : Any] = [
+//            "pay_version"   : "3.0",
+//            "payment_code"  : "ios",
+//        ]
+        var fullParam = model
+        fullParam["pay_version"] = "3.0"
+        fullParam["payment_code"] = "ios"
+        
+        GMNet.request(GMOrder.create(para: fullParam)) { (response) in
+            guard let order_id = response["order_id"] as? String else { return }
+            guard let productId = response["productId"] as? String else { return }
+            
+            guard SKPaymentQueue.canMakePayments() else { return }
+            
+            self.transcationModelDic = model
+            self.transcationModelDic?["order_id"] = order_id
+            self.getProductInfow(proId: productId)
+        }
+    }
+    
+}
+
+extension GMIAPManager: SKPaymentTransactionObserver {
+    
+    public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for tran in transactions {
+            switch tran.transactionState {
+            case .purchased: // 购买成功，此时要提供给用户相应的内容
+                guard let transactionId = tran.transactionIdentifier else {
+                    SKPaymentQueue.default().finishTransaction(tran)
+                    return
+                }
+                let keyChain = Keychain(service: GMIAPManager.bundleID)
+                
+                var nullableTranscationDic: [String : Any]?
+                if self.transcationModelDic != nil {
+                    // self.transcationModelDic存在说明是新交易，需要存入本地
+                    nullableTranscationDic = self.transcationModelDic!
+                    if let data = try? JSONSerialization.data(withJSONObject: self.transcationModelDic!) {
+                        try? keyChain.set(data, key: transactionId)
+                    }
+                } else {
+                    // self.transcationModelDic为空，说明是APP刚启动，是之前的未完成交易，需要从本地读取订单信息
+                    if let data = try? keyChain.getData(transactionId) {
+                        if let localDic = try? JSONSerialization.jsonObject(with: data) as? [String : Any] {
+                            nullableTranscationDic = localDic
+                        }
+                    }
+                }
+                guard var transcationDic = nullableTranscationDic else {
+                    SKPaymentQueue.default().finishTransaction(tran)
+                    return
+                }
+                
+                let receiptStr: String
+                if let url = Bundle.main.appStoreReceiptURL {
+                    receiptStr = try! Data(contentsOf: url).base64EncodedString()
+                } else {
+                    receiptStr = ""
+                }
+                transcationDic["apple_receipt"] = receiptStr
+                transcationDic["item_id"] = tran.payment.productIdentifier
+                transcationDic["type"] = "app"
+                
+//                let para: [String : Any] = [
+//                    "item_name"     : "60金币",
+//                    "gss_appid"     : "773",
+//                    "apple_receipt" : receiptStr,
+//                    "order_id"      : order_id!,
+//                    "type"          : "app",
+//                    "developerinfo" : "49289088",
+//                    "roleid"        : "554",
+//                    "uid"           : "11609707",
+//                    "item_price"    : 6,
+//                    "item_id"       : tran.payment.productIdentifier,
+//                    "coins"         : 6,
+//                    "serverid"      : "1",
+//                ]
+                GMNet.request(GMOrder.verify(para: transcationDic)) { (response) in
+                    SKPaymentQueue.default().finishTransaction(tran)
+                    try? keyChain.remove(transactionId)
+                    
+                    let developerinfo = transcationDic["developerinfo"] as! String
+                    Tracking.setRyzf(developerinfo, ryzfType: "appstore", hbType: "CNY", hbAmount: 0)
+                }
+                
+                break
+                
+            case .purchasing: // 购买中，此时可更新UI来展现购买的过程
+                break
+            
+            case .restored: // 恢复已购产品，此时需要将已经购买的商品恢复给用户
+                SKPaymentQueue.default().finishTransaction(tran)
+                print("恢复已购产品")
+                break
+            
+            case .failed: // 购买错误，此时要根据错误的代码给用户相应的提示
+                SKPaymentQueue.default().finishTransaction(tran)
+                print("购买失败")
+                break
+                
+            default:
+                break
+                
+            }
+        }
     }
     
 }
@@ -119,68 +212,6 @@ extension GMIAPManager: SKProductsRequestDelegate {
     
     public func requestDidFinish(_ request: SKRequest) {
         print("支付调用完成")
-    }
-    
-}
-
-extension GMIAPManager: SKPaymentTransactionObserver {
-    
-    public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        print("\(type(of: self).description()).\(#function)")
-        
-        for tran in transactions {
-            switch tran.transactionState {
-            case .purchased: // 购买成功，此时要提供给用户相应的内容
-                SKPaymentQueue.default().finishTransaction(tran)
-                
-//                let receiptStr: String
-//                if let url = Bundle.main.appStoreReceiptURL {
-//                    receiptStr = try! Data(contentsOf: url).base64EncodedString()
-//                } else {
-//                    receiptStr = ""
-//                }
-//                
-//                let para: [String : Any] = [
-//                    "item_name"     : "60金币",
-//                    "gss_appid"     : "773",
-//                    "apple_receipt" : receiptStr,
-//                    "order_id"      : order_id!,
-//                    "type"          : "app",
-//                    "developerinfo" : "49289088",
-//                    "roleid"        : "554",
-//                    "uid"           : "11609707",
-//                    "item_price"    : 6,
-//                    "item_id"       : tran.payment.productIdentifier,
-//                    "coins"         : 6,
-//                    "serverid"      : "1",
-//                ]
-//                GMNet.request(GMOrder.verify(para: para)) { (response) in
-//                    // ...
-//
-//                    Tracking.setRyzf(developerinfo, ryzfType: "appstore", hbType: "CNY", hbAmount: 0)
-//                    SKPaymentQueue.default().finishTransaction(tran)
-//                }
-                
-                break
-                
-            case .purchasing: // 购买中，此时可更新UI来展现购买的过程
-                break
-            
-            case .restored: // 恢复已购产品，此时需要将已经购买的商品恢复给用户
-                SKPaymentQueue.default().finishTransaction(tran)
-                print("恢复已购产品")
-                break
-            
-            case .failed: // 购买错误，此时要根据错误的代码给用户相应的提示
-                SKPaymentQueue.default().finishTransaction(tran)
-                print("购买失败")
-                break
-                
-            default:
-                break
-                
-            }
-        }
     }
     
 }

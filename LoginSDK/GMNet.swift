@@ -176,9 +176,7 @@ class GMNet {
         let urlString = request.baseUrl + request.path
         let method = request.method
         var fullParam = request.reqParameter
-        fullParam.merge(publicParam()) { (old, new) -> Any in
-            old
-        }
+        fullParam.merge(publicParam()) { $1 }
         let headers = HTTPHeaders(["Authorization": authStr(withParam: fullParam)])
         
         #if DEBUG

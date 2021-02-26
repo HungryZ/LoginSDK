@@ -30,12 +30,25 @@ class ViewController: UIViewController {
     
     @objc
     func buttonClicked() {
-        GMIAPManager.shared.startIAP(withProductId: "com.cqhaowan.gamezero.test1")
+        let param: [String : Any] = [
+            "notify_url"    : "",
+            "coins"         : 6,
+            "item_id"       : "1101",
+            "item_price"    : 6,
+            "item_name"     : "60金币",
+            "developerinfo" : "49289090",
+            "pay_version"   : "3.0",
+            "serverid"      : "1",
+            "roleid"        : "554",
+            "gss_appid"     : "773",
+            "uid"           : "11609707",
+        ]
+        GMIAPManager.shared.startIAP(param)
     }
     
     @objc
     func buttonClicked2() {
-        GMIAPManager.shared.startIAP(withProductId: "com.cqhaowan.gamezero.test2")
+//        GMIAPManager.shared.startIAP(withProductId: "com.cqhaowan.gamezero.test2")
     }
     
 }

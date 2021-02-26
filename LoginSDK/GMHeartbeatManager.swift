@@ -11,7 +11,6 @@ class GMHeartbeatManager {
     
     var enableRealNameVerify: Bool = false
     
-    
     public static let shared = GMHeartbeatManager()
     private init() {
         DispatchQueue.global().async {
