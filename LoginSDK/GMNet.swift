@@ -192,7 +192,7 @@ class GMNet {
         #endif
         
         AF.request(urlString, method: method, parameters: fullParam, headers: headers, requestModifier: { (urlRequest) in
-            urlRequest.timeoutInterval = 8
+            urlRequest.timeoutInterval = 15
         }).responseJSON(completionHandler: { (response) in
             switch response.result {
             case .success(let result):
