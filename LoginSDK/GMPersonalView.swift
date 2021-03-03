@@ -56,11 +56,10 @@ class GMPersonalView: GMBaseView {
         GMNet.request(GMLogin.userInfo) { (response) in
             let user = response.decode(to: GMUserModel.self)
             
-            if let url = URL(string: user.face) {
-                if let data = try? Data(contentsOf: url) {
-                    let image = UIImage(data: data)
-                    self.avatarButton.setImage(image, for: .normal)
-                }
+            if let url = URL(string: user.face),
+               let data = try? Data(contentsOf: url),
+               let image = UIImage(data: data) {
+                self.avatarButton.setImage(image, for: .normal)
             }
             
             self.nameLabel.text = user.nickname

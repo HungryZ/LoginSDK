@@ -28,10 +28,18 @@ class GMHeartbeatManager {
         guard LoginManager.shared.isLogin else { return }
         
         GMNet.request(GMLogin.heartbeat(isFront: true)) { (response) in
+                        
+//            let response: [String : Any] = [
+//                "limit_login" : 3,
+//                "time_left" : 0,
+//                "holiday" : false,
+//            ]
             
             guard self.enableRealNameVerify else { return }
             guard let limit = response["limit_login"] as? Int, limit != 0 else { return }
-            guard let timeLeft = response["time_left"] as? Int else { return }
+            guard var timeLeft = response["time_left"] as? Int else { return }
+            
+            timeLeft = timeLeft / 60 // 原单位是秒，这里换算成分钟
             
             switch limit {
             

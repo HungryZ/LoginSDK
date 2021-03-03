@@ -9,37 +9,19 @@ import StoreKit
 import KeychainAccess
 import SwiftyStoreKit
 
-public class GMTransactionModel: Codable {
-    
-    var transactionIdentifier: String
-    var productId: String
-    var item_name: String
-    var apple_receipt: String
-    var order_id: String
-    var developerinfo: String
-    var roleid: String
-    var item_price: CGFloat
-    var item_id: String
-    var coins: Int
-    var serverid: String
-    var notify_url: String?
-    var uid: String?
-    var type: String = "app"
-    var pay_version: String = "3.0"
-    var payment_code: String = "ios"
+public protocol GMIAPManagerDelegate: class {
+    func iapManagerDidFinishTranscation(_ transcation:[String : Any]?, succeed: Bool);
 }
 
 public class GMIAPManager: NSObject {
     
-    public static let bundleID = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
-    
+    /// 单例
     public static let shared = GMIAPManager()
+    /// 购买结果回调代理
+    public weak var delegate: GMIAPManagerDelegate?
     
-    var transcationModelDic: [String : Any]?
-    var transcationModel: GMTransactionModel?
-    
-    var result: ((Bool) -> Void)?
-    
+    static let bundleID = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
+        
     private override init() {
         super.init()
         
@@ -47,11 +29,11 @@ public class GMIAPManager: NSObject {
             for purchase in purchases {
                 switch purchase.transaction.transactionState {
                 case .purchased, .restored:
-                    // MARK: - TODO: verify
-                    self.verifyTransaction(purchase.transaction) { (succeed) in
+                    self.verifyTransaction(purchase.productId) { (param, succeed) in
                         SwiftyStoreKit.finishTransaction(purchase.transaction)
+                        self.delegate?.iapManagerDidFinishTranscation(param, succeed: succeed)
                     }
-                // Unlock content
+                    
                 default:
                     SwiftyStoreKit.finishTransaction(purchase.transaction)
                     break
@@ -60,127 +42,117 @@ public class GMIAPManager: NSObject {
         }
     }
     
-    public func startIAP(_ model: [String : Any], result: @escaping (Bool) -> Void) {
-        
-//        let para: [String : Any] = [
-//            "notify_url"    : "",
-//            "coins"         : 6,
-//            "item_id"       : "1101",
-//            "developerinfo" : "49289088",
-//            "pay_version"   : "3.0",
-//            "serverid"      : "1",
-//            "roleid"        : "554",
-//            "payment_code"  : "ios",
-//        ]
-//        var fullParam: [String : Any] = [
-//            "pay_version"   : "3.0",
-//            "payment_code"  : "ios",
-//        ]
-        var fullParam = model
-        fullParam["pay_version"] = "3.0"
-        fullParam["payment_code"] = "ios"
-        
-        GMNet.request(GMOrder.create(para: fullParam)) { (response) in
-            guard let order_id = response["order_id"] as? String else {
-                result(false)
-                return
-            }
-            guard let productId = response["productId"] as? String else {
-                result(false)
+    /// 发起内购
+    public func startIAP(_ model: [String : Any]) {
+        verifyPurchaseRule(price: model["coins"] as! Int) { (canPurchase) in
+            guard canPurchase else {
+                self.delegate?.iapManagerDidFinishTranscation(model, succeed: false)
                 return
             }
             
-            guard SKPaymentQueue.canMakePayments() else {
-                result(false)
-                return
-            }
+            var fullParam = model
+            fullParam["pay_version"] = "3.0"
+            fullParam["payment_code"] = "ios"
             
-            self.transcationModelDic = model
-            self.transcationModelDic?["order_id"] = order_id
-            self.transcationModelDic?["productId"] = productId
-            self.transcationModelDic?["item_id"] = productId
-//            self.getProductInfow(proId: productId)
-            self.result = result
-            
-            
-            SwiftyStoreKit.purchaseProduct(productId, quantity: 1, atomically: false) { iapResult in
-                switch iapResult {
-                case .success(let product):
-                    // fetch content from your server, then:
-                    self.verifyTransaction(product.transaction) { (succeed) in
-                        SwiftyStoreKit.finishTransaction(product.transaction)
-                        result(succeed)
-                    }
-                    print("Purchase Success: \(product.productId)")
-                case .error:
-                    result(false)
+            GMNet.request(GMOrder.create(para: fullParam)) { (response) in
+                guard let order_id = response["order_id"] as? String else {
+                    self.delegate?.iapManagerDidFinishTranscation(fullParam, succeed: false)
+                    return
                 }
+                guard let productId = response["productId"] as? String else {
+                    self.delegate?.iapManagerDidFinishTranscation(fullParam, succeed: false)
+                    return
+                }
+                
+                guard SKPaymentQueue.canMakePayments() else {
+                    self.delegate?.iapManagerDidFinishTranscation(fullParam, succeed: false)
+                    return
+                }
+                
+                var transcationParam = model
+                transcationParam["order_id"] = order_id
+                transcationParam["item_id"] = productId
+                
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: transcationParam)
+                    let keyChain = Keychain(service: GMIAPManager.bundleID)
+                    try keyChain.set(data, key: productId)
+                } catch {
+                    self.delegate?.iapManagerDidFinishTranscation(fullParam, succeed: false)
+                    return
+                }
+                
+                SwiftyStoreKit.purchaseProduct(productId, quantity: 1, atomically: false) { iapResult in
+                    switch iapResult {
+                    case .success(let product):
+                        // fetch content from your server, then:
+                        self.verifyTransaction(product.productId) { (_, succeed) in
+                            SwiftyStoreKit.finishTransaction(product.transaction)
+                            self.delegate?.iapManagerDidFinishTranscation(fullParam, succeed: succeed)
+                        }
+                        
+                    case .error:
+                        self.delegate?.iapManagerDidFinishTranscation(fullParam, succeed: false)
+                    }
+                }
+            } fail: { (msg) in
+                self.delegate?.iapManagerDidFinishTranscation(fullParam, succeed: false)
             }
-        } fail: { (msg) in
-            result(false)
         }
     }
     
-    func verifyTransaction(_ tran: PaymentTransaction, verifyResult: @escaping (Bool) -> Void) {
-        guard let transactionId = tran.transactionIdentifier else {
-            verifyResult(false)
-            return
-        }
+    func verifyTransaction(_ productId: String, verifyResult: @escaping ([String : Any]?, Bool) -> Void) {
+        
         let keyChain = Keychain(service: GMIAPManager.bundleID)
-        
-        var nullableTranscationDic: [String : Any]?
-        if self.transcationModelDic != nil {
-            // self.transcationModelDic存在说明是新交易，需要存入本地
-            do {
-                let data = try JSONSerialization.data(withJSONObject: self.transcationModelDic!)
-                try keyChain.set(data, key: transactionId)
-                nullableTranscationDic = self.transcationModelDic!
-            } catch {
-                
-            }
-        } else {
-            // self.transcationModelDic为空，说明是APP刚启动，是之前的未完成交易，需要从本地读取订单信息
-            if let data = try? keyChain.getData(transactionId),
-               let localDic = try? JSONSerialization.jsonObject(with: data) as? [String : Any] {
-                nullableTranscationDic = localDic
-            }
-        }
-        guard var transcationDic = nullableTranscationDic else {
-            verifyResult(false)
+        guard let data = try? keyChain.getData(productId),
+              var localTranscationParam = try? JSONSerialization.jsonObject(with: data) as? [String : Any] else {
+            verifyResult(nil, false)
             return
         }
-        
+
         let receiptStr: String
         if let url = Bundle.main.appStoreReceiptURL {
             receiptStr = try! Data(contentsOf: url).base64EncodedString()
         } else {
             receiptStr = ""
         }
-        transcationDic["apple_receipt"] = receiptStr
-        transcationDic["type"] = "app"
+        localTranscationParam["apple_receipt"] = receiptStr
+        localTranscationParam["type"] = "app"
         
-//                let para: [String : Any] = [
-//                    "item_name"     : "60金币",
-//                    "gss_appid"     : "773",
-//                    "apple_receipt" : receiptStr,
-//                    "order_id"      : order_id!,
-//                    "type"          : "app",
-//                    "developerinfo" : "49289088",
-//                    "roleid"        : "554",
-//                    "uid"           : "11609707",
-//                    "item_price"    : 6,
-//                    "item_id"       : tran.payment.productIdentifier,
-//                    "coins"         : 6,
-//                    "serverid"      : "1",
-//                ]
-        GMNet.request(GMOrder.verify(para: transcationDic)) { (response) in
-            verifyResult(true)
-            try? keyChain.remove(transactionId)
-            
-            let developerinfo = transcationDic["developerinfo"] as! String
+        GMNet.request(GMOrder.verify(para: localTranscationParam)) { (response) in
+            verifyResult(localTranscationParam, true)
+            try? keyChain.remove(productId)
+
+            let developerinfo = localTranscationParam["developerinfo"] as! String
             Tracking.setRyzf(developerinfo, ryzfType: "appstore", hbType: "CNY", hbAmount: 0)
         } fail: { (msg) in
-            verifyResult(false)
+            verifyResult(localTranscationParam, false)
+        }
+    }
+    
+    func verifyPurchaseRule(price: Int, callBack: @escaping (Bool) -> Void) {
+        if GMHeartbeatManager.shared.enableRealNameVerify {
+            GMNet.request(GMOrder.limit(price: price)) { (response) in
+                if let errmsg = response["errmsg"] as? String, errmsg.count > 0 {
+                    if let realname = response["realname"] as? Bool, !realname {
+                        GMAlertView.show(title: "温馨提示", message: errmsg, confirmStr: "前去认证", cancelStr: "关闭") {
+                            let vc = GMLoginNaviController(root: GMPersonalView())
+                            vc.canDismissByClick = true
+                            vc.pushView(GMRealNameCerView())
+                            rootVC()?.present(vc, animated: true, completion: nil)
+                        } cancelAction: {
+                            
+                        }
+                    } else {
+                        GMAlertView.show(title: "温馨提示", message: errmsg, confirmStr: "好的")
+                    }
+                    callBack(false)
+                } else {
+                    callBack(true)
+                }
+            }
+        } else {
+            callBack(true)
         }
     }
     

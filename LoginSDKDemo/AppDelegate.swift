@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        LoginManager.register(gameId: "773", host: "https://demo.gm88.com", trackingKey: "6e4444b67f30314e699f983c197f21a6")
         LoginManager.shared.setDelegate(self)
         
         let rootVC: UIViewController

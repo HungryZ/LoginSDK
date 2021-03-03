@@ -18,12 +18,16 @@ public class LoginManager {
     
     static let noti_user_login = NSNotification.Name(rawValue: "LoginSDK.noti_user_login")
     
+    // 配置参数
+    var gameId: String!
+    var host: String!
+    
+    /// 单例
     public static let shared = LoginManager()
     private init() {
         config()
         _ = GMIAPManager.shared
         _ = GMHeartbeatManager.shared
-        Tracking.initWithAppKey("6e4444b67f30314e699f983c197f21a6", withChannelId: "_default_")
     }
     
     weak var delegate: LoginSDKDelegate?
@@ -61,6 +65,19 @@ public class LoginManager {
     
     // MARK: - Public
     
+    /// 初始化SDK
+    /// - Parameters:
+    ///   - gameId: game_id
+    ///   - host: 接口地址
+    ///   - trackingKey: 热云appKey
+    public static func register(gameId: String, host: String, trackingKey: String) {
+        self.shared.gameId = gameId
+        self.shared.host = host
+        
+        Tracking.initWithAppKey(trackingKey, withChannelId: "_default_")
+    }
+    
+    /// 添加代理
     public func setDelegate(_ delegate: LoginSDKDelegate) {
         self.delegate = delegate
     }

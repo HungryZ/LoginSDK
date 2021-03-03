@@ -21,6 +21,7 @@ class GMPhoneHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
         tableView.rowHeight = ScaleWidth(36)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.layer.cornerRadius = 4
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
@@ -35,6 +36,12 @@ class GMPhoneHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+        
+        layer.cornerRadius = 4
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 8
+        layer.shadowOpacity = 0.15
+        layer.shadowOffset = CGSize(width: 1, height: 1)
     }
     
     required init?(coder: NSCoder) {
@@ -50,7 +57,7 @@ class GMPhoneHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
             view.snp.makeConstraints { (make) in
                 make.top.equalTo(hostView.snp.bottom)
                 make.left.right.equalTo(hostView)
-                make.height.equalTo(ScaleWidth(36) * (CGFloat)(view.rowsNumber()))
+                make.height.equalTo(ScaleWidth(36) * (CGFloat)(view.rowsNumber() > 3 ? 3 : view.rowsNumber()))
             }
             showedView = view
         }
@@ -122,12 +129,21 @@ extension GMPhoneHistoryView {
         }
     }
     
+    // 保存和返回的都是带格式的手机号 188 8888 8888
     static func savePhone(_ phone: String) {
-        // 保存和返回的都是带格式的手机号 188 8888 8888
-//        guard phone.isPhoneNumber() else {
-//            return
-//        }
         var newPhones = phones()
+        // 如果这个手机号存在本地，先删除
+        var localIndex: NSInteger?
+        for (index, localPhone) in newPhones.enumerated() {
+            if phone == localPhone {
+                localIndex = index
+                break
+            }
+        }
+        if localIndex != nil {
+            newPhones .remove(at: localIndex!)
+        }
+        // 排在最前
         newPhones.insert(phone, at: 0)
         UserDefaults.standard.setValue(newPhones, forKey: key_historyPhone)
     }

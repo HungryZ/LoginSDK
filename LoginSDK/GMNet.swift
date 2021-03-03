@@ -8,6 +8,7 @@
 
 import Alamofire
 import AdSupport
+import KeychainAccess
 
 // MARK: - Protocol
 
@@ -27,7 +28,7 @@ protocol GMRequestModel {
 extension GMRequestModel {
     
     var baseUrl: String {
-        return "https://demo.gm88.com"
+        return LoginManager.shared.host
     }
     
     var method: HTTPMethod {
@@ -122,6 +123,8 @@ enum GMLogin: GMRequestModel {
 
 enum GMOrder: GMRequestModel {
     
+    case limit(price: Int)
+    
     //notify_url=http://www.xx.com // 支付后发货地址，CP提供，无则为空
     //coins=0.99 // 金额，单位（元）必填
     //item_id=1101 // 商品ID 必填
@@ -148,6 +151,8 @@ enum GMOrder: GMRequestModel {
     
     var path: String {
         switch self {
+        case .limit:
+            return "/api/v1/user/get_state"
         case .create:
             return "/api/v1/order/create"
         case .verify:
@@ -157,6 +162,8 @@ enum GMOrder: GMRequestModel {
     
     var reqParameter: [String : Any] {
         switch self {
+        case .limit(price: let price):
+            return ["fcm": 2, "coins": price]
         case .create(para: let para):
             return para
         case .verify(para: let para):
@@ -237,12 +244,13 @@ class GMNet {
     
     static func publicParam() -> [String : Any] {
         [
-            "idfa"    : ASIdentifierManager.shared().advertisingIdentifier.uuidString,
-            "idfvnom" : UIDevice.current.identifierForVendor?.uuidString ?? "",
-            "idfv"    : UIDevice.current.identifierForVendor?.uuidString ?? "",
-            "game_id" : "773",
-            "token"   : LoginManager.shared.isLogin ? LoginManager.shared.token! : "",
-            "sdk_ver" : "wsy", // 固定值
+            "idfa"      : ASIdentifierManager.shared().advertisingIdentifier.uuidString,
+            "idfvnom"   : UIDevice.current.identifierForVendor?.uuidString ?? "",
+            "idfv"      : deviceID(),
+            "device_no" : deviceID(),
+            "game_id"   : LoginManager.shared.gameId!,
+            "token"     : LoginManager.shared.isLogin ? LoginManager.shared.token! : "",
+            "sdk_ver"   : "wsy", // 固定值
         ]
     }
     
@@ -271,5 +279,18 @@ class GMNet {
         }
         
         return paramStr
+    }
+    
+    static func deviceID() -> String {
+        let key = GMIAPManager.bundleID + ".device"
+        let keyChain = Keychain(service: GMIAPManager.bundleID)
+        
+        if let deviceID = keyChain[key] {
+            return deviceID
+        } else {
+            let deviceID = UUID().uuidString.MD5String() + String.random(4)
+            keyChain[key] = deviceID
+            return deviceID
+        }
     }
 }
