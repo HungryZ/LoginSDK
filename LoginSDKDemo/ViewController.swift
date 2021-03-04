@@ -7,6 +7,7 @@
 
 import UIKit
 import LoginSDK
+import SnapKit
 
 class ViewController: UIViewController, GMIAPManagerDelegate {
     
@@ -35,6 +36,8 @@ class ViewController: UIViewController, GMIAPManagerDelegate {
     
     let developerinfoField = UITextField(frame: CGRect(x: 50, y: 200, width: 100, height: 44))
     let itemButton = UIButton(type: .system)
+    let buyButton = UIButton(frame: CGRect(x: 50, y: 300, width: 100, height: 100))
+    let resultLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,14 +57,22 @@ class ViewController: UIViewController, GMIAPManagerDelegate {
         itemButton.setTitle("\(selectedItem["price"] as! Int)金币", for: .normal)
         itemButton.addTarget(self, action: #selector(itemButtonClicked), for: .touchUpInside)
         
+        buyButton.setTitle("BUY", for: .normal)
+        buyButton.backgroundColor = .lightGray
+        buyButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        
+        resultLabel.font = UIFont.systemFont(ofSize: 14)
+        resultLabel.numberOfLines = 0
+        
         view.addSubview(developerinfoField)
         view.addSubview(itemButton)
+        view.addSubview(buyButton)
+        view.addSubview(resultLabel)
         
-        let button = UIButton(frame: CGRect(x: 50, y: 300, width: 100, height: 100))
-        button.setTitle("BUY", for: .normal)
-        button.backgroundColor = .lightGray
-        button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
-        view.addSubview(button)
+        resultLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(buyButton.snp.bottom).offset(20)
+            make.left.right.equalTo(view).inset(34)
+        }
     }
     
     @objc
@@ -90,6 +101,7 @@ class ViewController: UIViewController, GMIAPManagerDelegate {
         ]
         SVProgressHUD.show()
         GMIAPManager.shared.startIAP(param)
+        resultLabel.text = nil
     }
     
     @objc
@@ -104,7 +116,8 @@ class ViewController: UIViewController, GMIAPManagerDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    func iapManagerDidFinishTranscation(_ transcation: [String : Any]?, succeed: Bool) {
+    func iapManagerDidFinishTranscation(_ transcation: [String : Any]?, succeed: Bool, errorMsg: String?) {
+        resultLabel.text = errorMsg
         succeed ? SVProgressHUD.showSuccess(withStatus: "购买成功") : SVProgressHUD.showError(withStatus: "购买失败")
     }
 }

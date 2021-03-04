@@ -11,6 +11,10 @@ platform :ios, '11.0'
     pod 'IQKeyboardManagerSwift'
     pod 'KeychainAccess'
     pod 'SwiftyStoreKit'
+#    pod 'DoraemonKit/Core'
+#    pod 'DoraemonKit/WithLogger'
+#    pod 'DoraemonKit/WithLoad'
+#    pod 'CocoaLumberjack/Swift'
 
   end
 end

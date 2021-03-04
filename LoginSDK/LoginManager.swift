@@ -6,6 +6,7 @@
 //
 
 import IQKeyboardManagerSwift
+//import DoraemonKit
 
 public protocol LoginSDKDelegate: class {
     func userLoginSucceed()
@@ -22,12 +23,8 @@ public class LoginManager {
     var gameId: String!
     var host: String!
     
-    /// 单例
-    public static let shared = LoginManager()
     private init() {
         config()
-        _ = GMIAPManager.shared
-        _ = GMHeartbeatManager.shared
     }
     
     weak var delegate: LoginSDKDelegate?
@@ -35,6 +32,15 @@ public class LoginManager {
     var memoryToken: String?
     
     var user: GMUserModel?
+    
+    private var enableRealNameVerify: Bool?
+}
+
+// MARK: - public
+
+extension LoginManager {
+    /// 单例
+    public static let shared = LoginManager()
     
     /// 是否登录
     public var isLogin: Bool {
@@ -63,8 +69,6 @@ public class LoginManager {
         }
     }
     
-    // MARK: - Public
-    
     /// 初始化SDK
     /// - Parameters:
     ///   - gameId: game_id
@@ -82,18 +86,6 @@ public class LoginManager {
         self.delegate = delegate
     }
     
-    /// 判断登录状态，如果已登录，返回为空，并判断是否需要实名认证；如果未登录，返回登录控制器
-    @discardableResult
-    public func checkStatus() -> UIViewController? {
-        if isLogin {
-            GMFloatButtonManager.showFloatButton()
-            showRealNameCerAlertIfNeeded()
-            return nil
-        } else {
-            return getLoginController()
-        }
-    }
-    
     /// 获取登录控制器
     public func getLoginController() -> UIViewController {
         GMLoginNaviController(root: GMSMSPhoneView())
@@ -106,21 +98,51 @@ public class LoginManager {
         delegate?.userLogout()
     }
     
-    // MARK: - Private
+    public func showFloatBallIfNeeded() {
+        if isLogin {
+            GMFloatButtonManager.showFloatButton()
+        }
+    }
+    
+    public func showRealNameCerAlertIfNeeded() {
+        getRealNameVerifyStatus { (enable) in
+            if enable {
+                self.showRealNameCerAlert()
+            }
+        }
+    }
+}
+
+// MARK: - Private
+
+extension LoginManager {
     
     func config() {
+//        DoraemonManager.shareInstance().install()
+        
         SVProgressHUD.setMaximumDismissTimeInterval(1.2)
         SVProgressHUD.setDefaultStyle(.dark)
         SVProgressHUD.setDefaultMaskType(.clear)
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        _ = GMIAPManager.shared
+        // 开启心跳
+        DispatchQueue.global().async {
+            self.getRealNameVerifyStatus { (_) in
+                DispatchQueue.main.async {
+                    GMHeartbeatManager.shared.timer.fire()
+                }
+            }
+        }
     }
     
     func loginSucceed(token: String) {
         self.token = token
         NotificationCenter.default.post(name: LoginManager.noti_user_login, object: nil)
         // 登陆成功立即触发心跳
+        GMHeartbeatManager.shared.needSetIntervalTo1 = true
         GMHeartbeatManager.shared.timer.fire()
         delegate?.userLoginSucceed()
     }
@@ -130,8 +152,22 @@ public class LoginManager {
         GMFloatButtonManager.hideFloatButton()
     }
     
-    func showRealNameCerAlertIfNeeded() {
-        guard isLogin else { return }
+    func getRealNameVerifyStatus(result: @escaping (Bool) -> Void) {
+        if let status = enableRealNameVerify {
+            result(status)
+        } else {
+            GMNet.request(GMLogin.realNameSwitch) { (response) in
+                if let enable = response["enableRealname"] as? Bool {
+                    self.enableRealNameVerify = enable
+                    result(enable)
+                } else {
+                    result(false)
+                }
+            }
+        }
+    }
+    
+    func showRealNameCerAlert() {
         GMNet.request(GMLogin.userInfo) { (response) in
             self.user = response.decode(to: GMUserModel.self)
             guard self.user!.needBindIdCardInfo else {

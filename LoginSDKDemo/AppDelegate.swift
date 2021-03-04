@@ -21,19 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let rootVC: UIViewController
         
-        let vc = LoginManager.shared.checkStatus()
-        if vc != nil {
-            // 返回了登录控制器说明没有登录
-            rootVC = vc!
-        } else {
+        if LoginManager.shared.isLogin {
             // 已经登录，进入游戏
             rootVC = ViewController()
+            LoginManager.shared.showRealNameCerAlertIfNeeded()
+        } else {
+            // 没有登录
+            rootVC = LoginManager.shared.getLoginController()
         }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
+        LoginManager.shared.showFloatBallIfNeeded() // 需在 makeKeyAndVisible() 之后调用
         
         return true
     }
@@ -49,7 +50,8 @@ extension AppDelegate: LoginSDKDelegate {
         // ...
         
         window?.rootViewController = ViewController()
-        LoginManager.shared.checkStatus()
+        LoginManager.shared.showFloatBallIfNeeded()
+        LoginManager.shared.showRealNameCerAlertIfNeeded()
     }
     
     func userLogout() {
@@ -58,6 +60,6 @@ extension AppDelegate: LoginSDKDelegate {
         // 退出登录
         // ...
         
-        window?.rootViewController = LoginManager.shared.checkStatus()
+        window?.rootViewController = LoginManager.shared.getLoginController()
     }
 }

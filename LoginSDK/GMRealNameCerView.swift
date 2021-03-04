@@ -88,6 +88,7 @@ class GMRealNameCerView: GMBaseView {
         } else {
             GMNet.request(GMLogin.realNameCer(name: nameField.text!, idNo: IDField.text!)) { (_) in
                 self.delegate?.popBack()
+                NotificationCenter.default.post(name: GMLoginNaviController.noti_RealNameCerSucceed, object: nil)
             }
         }
     }

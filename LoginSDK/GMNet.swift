@@ -55,7 +55,7 @@ enum GMLogin: GMRequestModel {
     case realNameCer(name: String, idNo: String)
     case userInfo
     case feedback
-    case heartbeat(isFront: Bool)
+    case heartbeat(isFront: Bool, interval: Int)
     case realNameSwitch
     
     var path: String {
@@ -111,8 +111,8 @@ enum GMLogin: GMRequestModel {
             return ["name": name, "idNo": idNo]
         case .userInfo:
             return [:]
-        case .heartbeat(isFront: let isFront):
-            return ["ts": Int(NSDate().timeIntervalSince1970), "is_front": isFront ? 1 : 0, "interval": 60, "fcm": 2]
+        case .heartbeat(isFront: let isFront, interval: let interval):
+            return ["ts": Int(NSDate().timeIntervalSince1970), "is_front": isFront ? 1 : 0, "interval": interval, "fcm": 2]
         case .feedback:
             return [:]
         case .realNameSwitch:

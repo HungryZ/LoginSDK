@@ -10,6 +10,8 @@ import SnapKit
 
 class GMLoginNaviController: UIViewController {
     
+    static let noti_RealNameCerSucceed = NSNotification.Name(rawValue: "LoginSDK.noti_RealNameCerSucceed")
+    
     var canDismissByClick = true
     
     var viewStack = [GMBaseView]()
@@ -49,6 +51,10 @@ class GMLoginNaviController: UIViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userLoginSucceed),
                                                name: LoginManager.noti_user_login,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(userRealNameCerSucceed),
+                                               name: GMLoginNaviController.noti_RealNameCerSucceed,
                                                object: nil)
         
         let bgButton = UIButton(imageName: "", target: self, action: #selector(backgroundClicked))
@@ -100,10 +106,15 @@ extension GMLoginNaviController: GMBaseViewDelegate {
 extension GMLoginNaviController {
     
     @objc func userLoginSucceed() {
-        // 其实没有用了
+        // 其实没有用了, 会切换Root
         dismiss(animated: true) {
             GMFloatButtonManager.showFloatButton()
         }
+    }
+    
+    @objc
+    func userRealNameCerSucceed() {
+        canDismissByClick = true
     }
 }
 
