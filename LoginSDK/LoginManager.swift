@@ -98,12 +98,14 @@ extension LoginManager {
         delegate?.userLogout()
     }
     
+    /// 显示悬浮小球（未登录状态无效）
     public func showFloatBallIfNeeded() {
         if isLogin {
             GMFloatButtonManager.showFloatButton()
         }
     }
     
+    /// 显示实名认证弹窗（已实名用户不会弹出）
     public func showRealNameCerAlertIfNeeded() {
         getRealNameVerifyStatus { (enable) in
             if enable {
