@@ -9,11 +9,11 @@ import StoreKit
 import KeychainAccess
 import SwiftyStoreKit
 
-public protocol GMIAPManagerDelegate: class {
+@objc public protocol GMIAPManagerDelegate: NSObjectProtocol {
     func iapManagerDidFinishTranscation(_ transcation:[String : Any]?, succeed: Bool, errorMsg: String?);
 }
 
-public class GMIAPManager: NSObject {
+@objcMembers public class GMIAPManager: NSObject {
     
     /// 单例
     public static let shared = GMIAPManager()

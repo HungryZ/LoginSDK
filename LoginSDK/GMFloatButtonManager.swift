@@ -8,7 +8,7 @@
 
 class GMFloatButtonManager {
     
-    public static let shared = GMFloatButtonManager()
+    static let shared = GMFloatButtonManager()
     private init() {}
     
     var floatButton: UIButton!

@@ -8,12 +8,12 @@
 import IQKeyboardManagerSwift
 //import DoraemonKit
 
-public protocol LoginSDKDelegate: class {
+@objc public protocol LoginSDKDelegate: NSObjectProtocol {
     func userLoginSucceed()
     func userLogout()
 }
 
-public class LoginManager {
+@objcMembers public class LoginManager: NSObject {
     
     let key_token = "LoginSDK.user.token"
     
@@ -23,11 +23,12 @@ public class LoginManager {
     var gameId: String!
     var host: String!
     
-    private init() {
+    private override init() {
+        super.init()
         config()
     }
     
-    weak var delegate: LoginSDKDelegate?
+    public weak var delegate: LoginSDKDelegate?
     
     var memoryToken: String?
     
@@ -82,9 +83,9 @@ extension LoginManager {
     }
     
     /// 添加代理
-    public func setDelegate(_ delegate: LoginSDKDelegate) {
-        self.delegate = delegate
-    }
+//    public func setDelegate(_ delegate: LoginSDKDelegate) {
+//        self.delegate = delegate
+//    }
     
     /// 获取登录控制器
     public func getLoginController() -> UIViewController {
