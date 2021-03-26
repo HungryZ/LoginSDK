@@ -30,7 +30,7 @@ class GMBaseCoverView: UIView {
     // MARK: - Instance Method
     
     deinit {
-        print("\(type(of: self).description()).\(#function)")
+        GMPrint("\(type(of: self).description()).\(#function)")
     }
     
     func disableBackgroundClick() {

@@ -120,8 +120,8 @@ extension GMLoginNaviController {
 
 /*
  var start = DispatchTime.now()
- print(dic)
+ GMPrint(dic)
  var end = DispatchTime.now()
  var time = end.uptimeNanoseconds - start.uptimeNanoseconds
- print(Double(time) / 1_000_000_000)
+ GMPrint(Double(time) / 1_000_000_000)
  */

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         LoginManager.register(gameId: "773", host: "https://demo.gm88.com", trackingKey: "6e4444b67f30314e699f983c197f21a6")
         LoginManager.shared.delegate = self
+        LoginManager.shared.logEnable = true
         
         let rootVC: UIViewController
         

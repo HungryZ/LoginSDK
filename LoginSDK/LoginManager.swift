@@ -8,6 +8,12 @@
 import IQKeyboardManagerSwift
 //import DoraemonKit
 
+func GMPrint(_ msg: String) {
+    if LoginManager.shared.logEnable {
+        print(msg)
+    }
+}
+
 @objc public protocol LoginSDKDelegate: NSObjectProtocol {
     func userLoginSucceed()
     func userLogout()
@@ -27,6 +33,9 @@ import IQKeyboardManagerSwift
         super.init()
         config()
     }
+    
+    /// 打印开关
+    public var logEnable = false
     
     public weak var delegate: LoginSDKDelegate?
     
@@ -81,11 +90,6 @@ extension LoginManager {
         
         Tracking.initWithAppKey(trackingKey, withChannelId: "_default_")
     }
-    
-    /// 添加代理
-//    public func setDelegate(_ delegate: LoginSDKDelegate) {
-//        self.delegate = delegate
-//    }
     
     /// 获取登录控制器
     public func getLoginController() -> UIViewController {

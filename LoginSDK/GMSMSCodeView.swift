@@ -72,7 +72,7 @@ class GMSMSCodeView: GMBaseView {
     }
     
     deinit {
-        print("\(type(of: self).description()).\(#function)")
+        GMPrint("\(type(of: self).description()).\(#function)")
     }
     
     override func buildUI() {

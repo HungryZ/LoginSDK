@@ -186,8 +186,8 @@ class GMNet {
         fullParam.merge(publicParam()) { $1 }
         let headers = HTTPHeaders(["Authorization": authStr(withParam: fullParam)])
         
-        #if DEBUG
-        print("""
+        
+        GMPrint("""
 
             ============================================================
             \(urlString)
@@ -196,7 +196,6 @@ class GMNet {
             ============================================================
 
             """)
-        #endif
         
         AF.request(urlString, method: method, parameters: fullParam, headers: headers, requestModifier: { (urlRequest) in
             urlRequest.timeoutInterval = 15
@@ -210,8 +209,7 @@ class GMNet {
                     }
                     return
                 }
-                #if DEBUG
-                print("""
+                GMPrint("""
 
                     ============================================================
                     \(urlString)
@@ -219,7 +217,6 @@ class GMNet {
                     ============================================================
 
                     """)
-                #endif
 
                 if let statusCode = resultDic["status"] as? Int, statusCode == 1 {
                     // success
