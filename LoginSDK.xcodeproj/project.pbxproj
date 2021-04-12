@@ -67,6 +67,8 @@
 		93CE98D425E66FBD00443F9C /* GMWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE98D325E66FBD00443F9C /* GMWebView.swift */; };
 		93CE98D825E6874000443F9C /* GMPhoneHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE98D725E6874000443F9C /* GMPhoneHistoryView.swift */; };
 		93CE98DC25E78BD100443F9C /* GMHeartbeatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE98DB25E78BD100443F9C /* GMHeartbeatManager.swift */; };
+		96511F8826246CCA00149767 /* ZHCNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96511F8726246CCA00149767 /* ZHCNetworking.swift */; };
+		969CADD9262493BD007634A4 /* GMVisitorLoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969CADD8262493BD007634A4 /* GMVisitorLoginAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +159,8 @@
 		93CE98D325E66FBD00443F9C /* GMWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMWebView.swift; sourceTree = "<group>"; };
 		93CE98D725E6874000443F9C /* GMPhoneHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMPhoneHistoryView.swift; sourceTree = "<group>"; };
 		93CE98DB25E78BD100443F9C /* GMHeartbeatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMHeartbeatManager.swift; sourceTree = "<group>"; };
+		96511F8726246CCA00149767 /* ZHCNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZHCNetworking.swift; sourceTree = "<group>"; };
+		969CADD8262493BD007634A4 /* GMVisitorLoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMVisitorLoginAPI.swift; sourceTree = "<group>"; };
 		A016353E384CD0454EEC2CF6 /* Pods-LoginSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-LoginSDKDemo/Pods-LoginSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DC64D776CCC98D7E6BEB0360 /* Pods-LoginSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginSDK.debug.xcconfig"; path = "Target Support Files/Pods-LoginSDK/Pods-LoginSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		E0B8F7928B6352B0FAC106E9 /* Pods_LoginSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,6 +226,8 @@
 				93CE986525E35C3200443F9C /* TrackingIO */,
 				9318E1FD25D0F82D008DBBFA /* Tools */,
 				9318E20125D0F82E008DBBFA /* Category */,
+				96511F8726246CCA00149767 /* ZHCNetworking.swift */,
+				969CADD8262493BD007634A4 /* GMVisitorLoginAPI.swift */,
 				9318E21425D0F82E008DBBFA /* GMNet.swift */,
 				9318E30E25D1366A008DBBFA /* LoginManager.swift */,
 				9318E20B25D0F82E008DBBFA /* GMFloatButtonManager.swift */,
@@ -527,6 +533,7 @@
 				9318E22425D0F82E008DBBFA /* GMBaseView.swift in Sources */,
 				9318E22C25D0F82E008DBBFA /* GMNet.swift in Sources */,
 				9318E30F25D1366A008DBBFA /* LoginManager.swift in Sources */,
+				96511F8826246CCA00149767 /* ZHCNetworking.swift in Sources */,
 				9318E22A25D0F82E008DBBFA /* GMLoginNaviController.swift in Sources */,
 				9318E37E25D1873F008DBBFA /* UIImage+Bundle.swift in Sources */,
 				9318E21E25D0F82E008DBBFA /* Data+Encoding.swift in Sources */,
@@ -545,6 +552,7 @@
 				9318E21C25D0F82E008DBBFA /* Dictionary+JSONString.swift in Sources */,
 				9318E27125D1196E008DBBFA /* ZHCTextField.m in Sources */,
 				9318E22525D0F82E008DBBFA /* GMRealNameCerView.swift in Sources */,
+				969CADD9262493BD007634A4 /* GMVisitorLoginAPI.swift in Sources */,
 				9318E21A25D0F82E008DBBFA /* UIButton+Theme.swift in Sources */,
 				9318E22025D0F82E008DBBFA /* String+Attribute.swift in Sources */,
 				93CE98D825E6874000443F9C /* GMPhoneHistoryView.swift in Sources */,
