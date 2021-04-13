@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  LoginSDKDemo
 //
-//  Created by 张海川 on 2021/2/8.
+//  Created by 张海川. on 2021/2/8.
 //
 
 import UIKit

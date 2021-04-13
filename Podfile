@@ -1,6 +1,7 @@
 use_frameworks!
+source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '11.0'
+platform :ios, '10.0'
 
 ['LoginSDK', 'LoginSDKDemo'].each do |t|
   target t do

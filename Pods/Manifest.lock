@@ -7,7 +7,7 @@ PODS:
   - SwiftyStoreKit (0.16.1)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (= 5.4.1)
   - IQKeyboardManagerSwift
   - KeychainAccess
   - SnapKit
@@ -15,8 +15,9 @@ DEPENDENCIES:
   - SwiftyStoreKit
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - Alamofire
+  trunk:
     - IQKeyboardManagerSwift
     - KeychainAccess
     - SnapKit
@@ -31,6 +32,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
 
-PODFILE CHECKSUM: bb0ed597b09dd8e3a6d2c3636e5dbf09b1b77770
+PODFILE CHECKSUM: 3c7fec7c125189a0c27c6b6b0bb2cca063a68c26
 
 COCOAPODS: 1.10.1
