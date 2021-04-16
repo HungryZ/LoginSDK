@@ -2,7 +2,7 @@
 //  Dictionary+JSONString.swift
 //  HungryTools_Example
 //
-//  Created by work on 2021/2/6.
+//  Created by 张海川 on 2021/2/6.
 //  Copyright © 2021 CocoaPods. All rights reserved.
 //
 

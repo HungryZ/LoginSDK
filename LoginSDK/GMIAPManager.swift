@@ -10,7 +10,7 @@ import KeychainAccess
 import SwiftyStoreKit
 
 @objc public protocol GMIAPManagerDelegate: NSObjectProtocol {
-    func iapManagerDidFinishTranscation(_ transcation:[String : Any]?, succeed: Bool, errorMsg: String?);
+    func iapManagerDidFinishTranscation(_ transcation:[String : Any]?, succeed: Bool, errorMsg: String?)
 }
 
 @objcMembers public class GMIAPManager: NSObject {
@@ -138,7 +138,7 @@ import SwiftyStoreKit
             let developerinfo = localTranscationParam["developerinfo"] as! String
             Tracking.setRyzf(developerinfo, ryzfType: "appstore", hbType: "CNY", hbAmount: 0)
         } fail: { (msg) in
-            #warning("可能漏单，需要判断失败的情况")
+            #warning("")
             verifyResult(localTranscationParam, false, "后台校验失败")
         }
     }
